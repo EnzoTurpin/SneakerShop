@@ -32,6 +32,9 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $imageUrl = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tailles = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,7 +48,6 @@ class Article
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -57,7 +59,6 @@ class Article
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -69,7 +70,6 @@ class Article
     public function setPrix(string $prix): static
     {
         $this->prix = $prix;
-
         return $this;
     }
 
@@ -81,7 +81,6 @@ class Article
     public function setDatePublication(\DateTimeInterface $datePublication): static
     {
         $this->datePublication = $datePublication;
-
         return $this;
     }
 
@@ -93,7 +92,6 @@ class Article
     public function setRole(string $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 
@@ -105,7 +103,18 @@ class Article
     public function setImageUrl(string $imageUrl): static
     {
         $this->imageUrl = $imageUrl;
+        return $this;
+    }
 
+    // Getter et setter pour la propriété "tailles"
+    public function getTailles(): ?string
+    {
+        return $this->tailles;
+    }
+
+    public function setTailles(?string $tailles): static
+    {
+        $this->tailles = $tailles;
         return $this;
     }
 }
