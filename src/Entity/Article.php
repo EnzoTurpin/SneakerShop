@@ -1,40 +1,48 @@
 <?php
+// src/Entity/Article.php
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\Entity]
 class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type:"integer")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type:"string", length:255)]
     private ?string $nom = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type:"text")]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type:"decimal", precision:10, scale:2)]
     private ?string $prix = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type:"datetime")]
     private ?\DateTimeInterface $datePublication = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $auteur = null;
 
-    #[ORM\Column(length: 255)]
+
+    #[ORM\Column(type:"string", length:255)]
+    #[Assert\Choice(choices: ["Homme", "Femme", "Enfant", "Mixte", "Accessoires"], message: "Choisissez un type valide.")]
+    private ?string $type = null;
+
+    #[ORM\Column(type:"string", length:255)]
     private ?string $imageUrl = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    // Ajout du champ "tailles"
+    #[ORM\Column(type:"string", length:255, nullable: true)]
     private ?string $tailles = null;
 
+    // Getters et setters
     public function getId(): ?int
     {
         return $this->id;
@@ -45,7 +53,7 @@ class Article
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
         return $this;
@@ -56,7 +64,7 @@ class Article
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -67,7 +75,7 @@ class Article
         return $this->prix;
     }
 
-    public function setPrix(string $prix): static
+    public function setPrix(string $prix): self
     {
         $this->prix = $prix;
         return $this;
@@ -78,20 +86,31 @@ class Article
         return $this->datePublication;
     }
 
-    public function setDatePublication(\DateTimeInterface $datePublication): static
+    public function setDatePublication(\DateTimeInterface $datePublication): self
     {
         $this->datePublication = $datePublication;
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getAuteur(): ?User
     {
-        return $this->role;
+        return $this->auteur;
     }
 
-    public function setRole(string $role): static
+    public function setAuteur(?User $auteur): self
     {
-        $this->role = $role;
+        $this->auteur = $auteur;
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 
@@ -106,13 +125,12 @@ class Article
         return $this;
     }
 
-    // Getter et setter pour la propriété "tailles"
     public function getTailles(): ?string
     {
         return $this->tailles;
     }
 
-    public function setTailles(?string $tailles): static
+    public function setTailles(?string $tailles): self
     {
         $this->tailles = $tailles;
         return $this;

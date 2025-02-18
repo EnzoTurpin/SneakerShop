@@ -4,5 +4,9 @@ controllers:
     namespace: App\Controller
   type: attribute
 article_list:
-  path: /articles
-  controller: App\Controller\ArticleController::list
+  path: /articles/{type}
+  controller: App\Controller\ArticleController::listByType
+  defaults:
+    type: Homme
+  requirements:
+    type: Homme|Femme|Enfant|Mixte|Accessoires
