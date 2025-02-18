@@ -1,0 +1,17 @@
+{# templates/article/detail.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'article{% endblock %}
+
+{% block body %}
+  <h1>{{ article.nom }}</h1>
+  {% if article.imageUrl %}
+    <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="img-fluid">
+  {% endif %}
+  <p>{{ article.description }}</p>
+  <p>Prix : {{ article.prix }} €</p>
+  <p>Type : {{ article.type }}</p>
+  {% if article.tailles %}
+    <p>Tailles : {{ article.tailles }}</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{# templates/landing/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur SneakerShop{% endblock %}
+
+{% block body %}
+  <header>
+    <nav>
+      {# Vous pouvez inclure ici votre navbar avec le logo, la barre de recherche et les liens de navigation #}
+      <a href="{{ path('landing') }}">SneakerShop</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Bienvenue sur SneakerShop</h1>
+      <p>Découvrez nos sneakers exclusives et trouvez la paire parfaite pour vous.</p>
+      <a class="btn btn-primary" href="{{ path('article_list') }}">Voir les sneakers</a>
+    </section>
+    
+    {# Ajoutez d'autres sections selon vos besoins (carrousel, features, etc.) #}
+  </main>
+
+  <footer>
+    <p>&copy; {{ "now"|date("Y") }} SneakerShop. Tous droits réservés.</p>
+  </footer>
+{% endblock %}

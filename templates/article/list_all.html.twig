@@ -1,0 +1,35 @@
+{# templates/article/list_all.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block body %}
+  <h1>Liste de tous les articles</h1>
+
+  {% if articles is empty %}
+    <p>Aucun article n'a été trouvé.</p>
+  {% else %}
+    <div class="row">
+      {% for article in articles %}
+        <div class="col-md-4">
+          <div class="card mb-3">
+            {% if article.imageUrl %}
+              <img src="{{ article.imageUrl }}" class="card-img-top" alt="{{ article.nom }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ article.nom }}</h5>
+              <p class="card-text">{{ article.description|slice(0, 100) ~ '...' }}</p>
+              <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+              <p class="card-text">Type : {{ article.type }}</p>
+              {% if article.tailles %}
+                <p class="card-text">Tailles : {{ article.tailles }}</p>
+              {% endif %}
+              <!-- Si vous avez une route de détail pour un article, vous pouvez l'utiliser ici -->
+              <a href="{{ path('article_detail', {id: article.id}) }}" class="btn btn-primary">Détails</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

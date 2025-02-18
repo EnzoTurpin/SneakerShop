@@ -1,0 +1,29 @@
+{# templates/article/list_by_type.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles pour {{ type }}{% endblock %}
+
+{% block body %}
+  <h1>Articles pour {{ type }}</h1>
+  
+  {% if articles is empty %}
+    <p>Aucun article trouvé pour {{ type }}.</p>
+  {% else %}
+    <div class="row">
+      {% for article in articles %}
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img src="{{ article.imageUrl }}" class="card-img-top" alt="{{ article.nom }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ article.nom }}</h5>
+              <p class="card-text">{{ article.description|slice(0,100) ~ '...' }}</p>
+              <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+              <!-- Vous pouvez ajouter un lien vers la page de détail -->
+              <a href="{{ path('article_detail', {id: article.id}) }}" class="btn btn-primary">Détails</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
