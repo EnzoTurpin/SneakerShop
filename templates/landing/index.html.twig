@@ -1,4 +1,5 @@
 {# templates/landing/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Bienvenue sur SneakerShop{% endblock %}
@@ -6,8 +7,11 @@
 {% block body %}
   <header>
     <nav>
-      {# Vous pouvez inclure ici votre navbar avec le logo, la barre de recherche et les liens de navigation #}
       <a href="{{ path('landing') }}">SneakerShop</a>
+      <ul>
+        <li><a href="{{ path('profile') }}">Mon Profil</a></li>
+        <li><a href="{{ path('article_list') }}">Sneakers</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -17,8 +21,6 @@
       <p>Découvrez nos sneakers exclusives et trouvez la paire parfaite pour vous.</p>
       <a class="btn btn-primary" href="{{ path('article_list') }}">Voir les sneakers</a>
     </section>
-    
-    {# Ajoutez d'autres sections selon vos besoins (carrousel, features, etc.) #}
   </main>
 
   <footer>
