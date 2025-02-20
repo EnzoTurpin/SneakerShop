@@ -5,7 +5,7 @@
     <div class="logo">
         <img src="path_to_logo.png" alt="Logo" />
     </div>
-    
+
     <div class="search-bar">
         <input type="text" placeholder="Rechercher..." />
         <button><i class="fas fa-search"></i></button>
@@ -70,8 +70,25 @@
             </li>
         </ul>
     </nav>
-    <div class="icons">
-        <a href="#profile" class="icon"><i class="fas fa-user"></i></a>
-        <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
+    <nav class="icons">
+        <ul> 
+            <li class="dropdown">
+                <a href="#profile" class="icon"><i class="fas fa-user"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Mon compte</a></li>
+                    <li><a href="#">Modifier le profil</a></li>
+                    <li><a href="#">Aide et support</a></li>
+                    <li><a href="#">Déconnexion</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
+                <ul class="dropdown-menu">
+                <li><a href="#">Mon panier</a></li>
+                <li><a href="#">Mes commandes</a></li>
+                <li><a href="#">Mes favoris</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </header>
