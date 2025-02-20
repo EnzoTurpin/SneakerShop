@@ -7,6 +7,7 @@ use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -42,10 +43,26 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'label' => 'Tailles (optionnel)',
             ])
-            // Remplacer le champ imageUrl par imageFile pour l'upload
+            // Nouveau champ pour la marque
+            ->add('brand', ChoiceType::class, [
+                'choices'  => [
+                    'Nike'    => 'Nike',
+                    'Adidas'  => 'Adidas',
+                    'Puma'    => 'Puma',
+                    'Reebok'  => 'Reebok',
+                ],
+                'placeholder' => 'Choisissez une marque (optionnel)',
+                'required' => false,
+            ])
+            // Nouveau champ pour indiquer si c'est une nouveauté
+            ->add('nouveaute', CheckboxType::class, [
+                'label'    => 'Nouvelle paire ?',
+                'required' => false,
+            ])
+            // Champ pour uploader l'image (non mappé)
             ->add('imageFile', FileType::class, [
                 'label' => 'Image de l\'article (fichier JPG, PNG...)',
-                'mapped' => false, // Ce champ n'est pas directement lié à l'entité
+                'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([

@@ -4,31 +4,24 @@
 {% block title %}Liste des articles{% endblock %}
 
 {% block body %}
-  <h1>Liste de tous les articles</h1>
+  <h1 class="text-2xl font-bold mb-6 text-center">Liste des articles</h1>
 
   {% if articles is empty %}
-    <p>Aucun article n'a été trouvé.</p>
+    <p class="text-gray-700 text-center">Aucun article n'a été trouvé.</p>
   {% else %}
-    <div class="row">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
       {% for article in articles %}
-        <div class="col-md-4">
-          <div class="card mb-3">
+        <a href="{{ path('article_detail', {id: article.id}) }}" class="block">
+          <div class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer max-w-sm">
             {% if article.imageUrl %}
-              <img src="{{ article.imageUrl }}" class="card-img-top" alt="{{ article.nom }}">
+              <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="w-full h-48 object-cover">
             {% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ article.nom }}</h5>
-              <p class="card-text">{{ article.description|slice(0, 100) ~ '...' }}</p>
-              <p class="card-text"><strong>{{ article.prix }} €</strong></p>
-              <p class="card-text">Type : {{ article.type }}</p>
-              {% if article.tailles %}
-                <p class="card-text">Tailles : {{ article.tailles }}</p>
-              {% endif %}
-              <!-- Si vous avez une route de détail pour un article, vous pouvez l'utiliser ici -->
-              <a href="{{ path('article_detail', {id: article.id}) }}" class="btn btn-primary">Détails</a>
+            <div class="p-4">
+              <h5 class="text-lg font-bold">{{ article.nom }}</h5>
+              <p class="mt-2 text-green-600 font-semibold">{{ article.prix }} €</p>
             </div>
           </div>
-        </div>
+        </a>
       {% endfor %}
     </div>
   {% endif %}

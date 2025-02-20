@@ -82,20 +82,82 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * Affiche les articles en fonction du type (Homme, Femme, Enfant, Mixte, Accessoires)
-     * Le paramètre "type" est optionnel et par défaut vaut "Homme"
+     * Affiche les articles pour "Homme"
      */
-    #[Route('/articles/{type?}', name: 'article_by_type', defaults: ['type' => 'Homme'], requirements: ['type' => 'Homme|Femme|Enfant|Mixte|Accessoires'])]
-    public function listByType(string $type, ManagerRegistry $doctrine): Response
+    #[Route('/articles/homme', name: 'article_homme')]
+    public function listHomme(ManagerRegistry $doctrine): Response
     {
         $articles = $doctrine->getRepository(Article::class)->findBy(
-            ['type' => $type],
+            ['type' => 'Homme'],
             ['datePublication' => 'DESC']
         );
-
-        return $this->render('article/list_by_type.html.twig', [
+        return $this->render('article/list_all.html.twig', [
             'articles' => $articles,
-            'type' => $type,
+            'type' => 'Homme',
+        ]);
+    }
+
+    /**
+     * Affiche les articles pour "Femme"
+     */
+    #[Route('/articles/Femme', name: 'article_femme')]
+    public function listFemme(ManagerRegistry $doctrine): Response
+    {
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            ['type' => 'Femme'],
+            ['datePublication' => 'DESC']
+        );
+        return $this->render('article/list_all.html.twig', [
+            'articles' => $articles,
+            'type' => 'Femme',
+        ]);
+    }
+
+    /**
+     * Affiche les articles pour "Enfant"
+     */
+    #[Route('/articles/enfant', name: 'article_enfant')]
+    public function listEnfant(ManagerRegistry $doctrine): Response
+    {
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            ['type' => 'Enfant'],
+            ['datePublication' => 'DESC']
+        );
+        return $this->render('article/list_all.html.twig', [
+            'articles' => $articles,
+            'type' => 'Enfant',
+        ]);
+    }
+
+    /**
+     * Affiche les articles pour "Mixte"
+     */
+    #[Route('/articles/mixte', name: 'article_mixte')]
+    public function listMixte(ManagerRegistry $doctrine): Response
+    {
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            ['type' => 'Mixte'],
+            ['datePublication' => 'DESC']
+        );
+        return $this->render('article/list_all.html.twig', [
+            'articles' => $articles,
+            'type' => 'Mixte',
+        ]);
+    }
+
+    /**
+     * Affiche les articles pour "Accessoires"
+     */
+    #[Route('/articles/accessoires', name: 'article_accessoires')]
+    public function listAccessoires(ManagerRegistry $doctrine): Response
+    {
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            ['type' => 'Accessoires'],
+            ['datePublication' => 'DESC']
+        );
+        return $this->render('article/list_all.html.twig', [
+            'articles' => $articles,
+            'type' => 'Accessoires',
         ]);
     }
 }

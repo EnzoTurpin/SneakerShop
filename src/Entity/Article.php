@@ -30,7 +30,6 @@ class Article
     #[ORM\JoinColumn(nullable: true)]
     private ?User $auteur = null;
 
-
     #[ORM\Column(type:"string", length:255)]
     #[Assert\Choice(choices: ["Homme", "Femme", "Enfant", "Mixte", "Accessoires"], message: "Choisissez un type valide.")]
     private ?string $type = null;
@@ -42,7 +41,16 @@ class Article
     #[ORM\Column(type:"string", length:255, nullable: true)]
     private ?string $tailles = null;
 
+    // Nouveau champ pour la marque
+    #[ORM\Column(type:"string", length:255, nullable: true)]
+    private ?string $brand = null;
+
+    // Nouveau champ pour indiquer si c'est une nouveauté
+    #[ORM\Column(type:"boolean", options: ['default' => false])]
+    private bool $nouveaute = false;
+
     // Getters et setters
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,6 +141,28 @@ class Article
     public function setTailles(?string $tailles): self
     {
         $this->tailles = $tailles;
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?string $brand): self
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    public function getNouveaute(): bool
+    {
+        return $this->nouveaute;
+    }
+
+    public function setNouveaute(bool $nouveaute): self
+    {
+        $this->nouveaute = $nouveaute;
         return $this;
     }
 }
