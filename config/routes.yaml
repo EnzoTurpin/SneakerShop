@@ -9,4 +9,4 @@ article_list:
   defaults:
     type: homme
   requirements:
-    type: homme|Femme|enfant|mixte|accessoires
+    type: homme|femme|enfant|mixte|accessoires
