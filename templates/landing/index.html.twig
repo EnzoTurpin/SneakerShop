@@ -1,29 +1,28 @@
-{# templates/landing/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur SneakerShop{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-  <header>
-    <nav>
-      <a href="{{ path('landing') }}">SneakerShop</a>
-      <ul>
-        <li><a href="{{ path('profile') }}">Mon Profil</a></li>
-        <li><a href="{{ path('article_list') }}">Sneakers</a></li>
-      </ul>
-    </nav>
-  </header>
+    <h1 class="text-center mt-4 text-3xl font-bold">Nos dernières paires</h1>
 
-  <main>
-    <section class="hero">
-      <h1>Bienvenue sur SneakerShop</h1>
-      <p>Découvrez nos sneakers exclusives et trouvez la paire parfaite pour vous.</p>
-      <a class="btn btn-primary" href="{{ path('article_list') }}">Voir les sneakers</a>
-    </section>
-  </main>
+    <div class="container mx-auto mt-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {% for article in articles %}
+                <div class="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+                    <!-- Image de la paire -->
+                    <img src="{{ article.imageUrl }}" class="w-full h-48 object-cover" alt="{{ article.nom }}">
 
-  <footer>
-    <p>&copy; {{ "now"|date("Y") }} SneakerShop. Tous droits réservés.</p>
-  </footer>
+                    <!-- Nom de la paire -->
+                    <div class="p-4 text-center">
+                        <h5 class="text-lg font-semibold">{{ article.nom }}</h5>
+                    </div>
+
+                    <!-- Description en dessous -->
+                    <div class="p-4 border-t border-gray-200">
+                        <p class="text-gray-600">{{ article.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
