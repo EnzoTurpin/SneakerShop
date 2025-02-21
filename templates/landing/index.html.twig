@@ -1,14 +1,12 @@
 {# templates/landing/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{# Titre de la page #}
 {% block title %}
     Bienvenue sur SneakerShop
 {% endblock %}
 
-{# Contenu principal du template #}
 {% block body %}
-  {# Affichage d'un bandeau de statut de connexion #}
+  {# Bandeau de statut de connexion #}
   {% if app.user %}
     <div class="p-4 bg-green-100 text-green-800 text-center">
       Bienvenue, {{ app.user.username is not empty ? app.user.username : app.user.email }} !
@@ -28,26 +26,80 @@
     </nav>
   </header>
 
-  {# Section héro de la page d'accueil #}
   <main class="container mx-auto px-4 py-8">
-    <section class="hero bg-gray-100 p-8 rounded-lg shadow-md text-center">
-      <h1 class="text-4xl font-extrabold text-gray-900 mb-4">
-        Bienvenue sur SneakerShop
-      </h1>
-      <p class="text-lg text-gray-700 mb-6">
-        Découvrez nos sneakers exclusives et trouvez la paire parfaite pour vous.
-      </p>
-      <a href="{{ path('article_list') }}"
-         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-        Voir les sneakers
-      </a>
+    {# PREMIER CARROUSEL : Paires du moment #}
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold mb-4">Paires du moment</h2>
+      <div class="marquee">
+        <div class="marquee-content">
+          {# -- Première série d’images -- #}
+          <img src="{{ asset('images/blktop-rider.jpg') }}" alt="Sneaker 1" class="marquee-img" />
+          <img src="{{ asset('images/campus.jpeg') }}" alt="Sneaker 2" class="marquee-img" />
+          <img src="{{ asset('images/dunk-low.jpeg') }}" alt="Sneaker 3" class="marquee-img" />
+
+          {# -- Duplication exacte pour la continuité -- #}
+          <img src="{{ asset('images/blktop-rider.jpg') }}" alt="Sneaker 1 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/campus.jpeg') }}" alt="Sneaker 2 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/dunk-low.jpeg') }}" alt="Sneaker 3 (bis)" class="marquee-img" />
+        </div>
+      </div>
+    </section>
+
+    {# DEUXIÈME CARROUSEL : Ventes récentes #}
+    <section class="mt-12">
+      <h2 class="text-2xl font-bold mb-4">Ventes récentes</h2>
+      <div class="marquee">
+        <div class="marquee-content">
+          <img src="{{ asset('images/sneaker4.jpg') }}" alt="Sneaker 4" class="marquee-img" />
+          <img src="{{ asset('images/sneaker5.jpg') }}" alt="Sneaker 5" class="marquee-img" />
+          <img src="{{ asset('images/sneaker6.jpg') }}" alt="Sneaker 6" class="marquee-img" />
+
+          <img src="{{ asset('images/sneaker4.jpg') }}" alt="Sneaker 4 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/sneaker5.jpg') }}" alt="Sneaker 5 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/sneaker6.jpg') }}" alt="Sneaker 6 (bis)" class="marquee-img" />
+        </div>
+      </div>
+    </section>
+
+    {# TROISIÈME CARROUSEL : Sélection de l'équipe #}
+    <section class="mt-12 mb-12">
+      <h2 class="text-2xl font-bold mb-4">Sélection de l'équipe</h2>
+      <div class="marquee">
+        <div class="marquee-content">
+          <img src="{{ asset('images/sneaker7.jpg') }}" alt="Sneaker 7" class="marquee-img" />
+          <img src="{{ asset('images/sneaker8.jpg') }}" alt="Sneaker 8" class="marquee-img" />
+          <img src="{{ asset('images/sneaker9.jpg') }}" alt="Sneaker 9" class="marquee-img" />
+
+          <img src="{{ asset('images/sneaker7.jpg') }}" alt="Sneaker 7 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/sneaker8.jpg') }}" alt="Sneaker 8 (bis)" class="marquee-img" />
+          <img src="{{ asset('images/sneaker9.jpg') }}" alt="Sneaker 9 (bis)" class="marquee-img" />
+        </div>
+      </div>
     </section>
   </main>
-
-  {# Pied de page #}
-  <footer class="bg-gray-200 py-4">
-    <div class="container mx-auto text-center text-gray-600">
-      <p>&copy; {{ "now"|date("Y") }} SneakerShop. Tous droits réservés.</p>
-    </div>
-  </footer>
+  {# -- Style pour le défilement continu (type "marquee") -- #}
+  <style>
+    .marquee {
+      width: 100%;
+      overflow: hidden; /* Cache le débordement */
+      position: relative;
+    }
+    .marquee-content {
+      display: flex;
+      /* 200% = 2 séries identiques */
+      width: 200%;
+      animation: marquee 15s linear infinite; /* Ajustez la durée pour la vitesse */
+    }
+    /* Les images doivent avoir la même largeur pour un rendu propre */
+    .marquee-img {
+      width: 16rem;  /* w-64 = 16rem en Tailwind */
+      height: 16rem; /* h-64 = 16rem */
+      object-fit: cover;
+      flex: none;    /* Important : évite que les images se redimensionnent dans le flex */
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
 {% endblock %}

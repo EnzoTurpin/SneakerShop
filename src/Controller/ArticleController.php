@@ -37,7 +37,7 @@ class ArticleController extends AbstractController
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
 
-                // Déplacer le fichier dans le dossier uploads (doit exister dans public/)
+                // Déplacer l'image dans le dossier uploads (doit exister dans public/)
                 try {
                     $imageFile->move(
                         $this->getParameter('uploads_directory'),
@@ -83,11 +83,8 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    // Méthodes d'affichage des articles par type
+    // Méthodes d'affichage des articles par type (le responsive est géré dans les templates Twig)
 
-    /**
-     * Liste des articles pour "Homme".
-     */
     #[Route('/articles/homme', name: 'article_homme')]
     public function listHomme(ManagerRegistry $doctrine): Response
     {
@@ -101,9 +98,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Liste des articles pour "Femme".
-     */
     #[Route('/articles/femme', name: 'article_femme')]
     public function listFemme(ManagerRegistry $doctrine): Response
     {
@@ -117,9 +111,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-     /**
-     * Liste des articles pour "Enfant".
-     */
     #[Route('/articles/enfant', name: 'article_enfant')]
     public function listEnfant(ManagerRegistry $doctrine): Response
     {
@@ -133,9 +124,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Liste des articles pour "Mixte".
-     */
     #[Route('/articles/mixte', name: 'article_mixte')]
     public function listMixte(ManagerRegistry $doctrine): Response
     {
@@ -149,9 +137,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-     /**
-     * Liste des articles pour "Accessoires".
-     */
     #[Route('/articles/accessoires', name: 'article_accessoires')]
     public function listAccessoires(ManagerRegistry $doctrine): Response
     {
@@ -166,8 +151,8 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * Liste des articles par catégorie et sous-catégorie.
-     * La sous-catégorie peut indiquer une nouveauté ou une marque.
+     * Liste des articles filtrés par catégorie et sous-catégorie.
+     * Exemple d'URL : /articles/homme/nike ou /articles/femme/nouveaute
      */
     #[Route('/articles/{category}/{subcategory}', name: 'article_by_category', requirements: [
         'category' => '(?i:Homme|Femme|Enfant|Mixte|Accessoires)',
@@ -178,7 +163,7 @@ class ArticleController extends AbstractController
         $repository = $doctrine->getRepository(Article::class);
         /** @var \Doctrine\ORM\EntityRepository $repository */
 
-        // Traitement spécifique pour "nouveaute" ou "nouveauté"
+        // Traitement pour "nouveaute" ou "nouveauté"
         if (mb_strtolower(trim($subcategory)) === 'nouveaute' || mb_strtolower(trim($subcategory)) === 'nouveauté') {
             $qb = $repository->createQueryBuilder('a')
                 ->where('a.type = :category')
