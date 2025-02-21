@@ -57,11 +57,12 @@ block body %}
       {% endfor %}
     </tbody>
   </table>
-
-  <div class="mt-6 text-right text-xl font-bold">
+  <div class="border-t border-gray-400 my-4"></div>
+  <div class="mt-6 text-left text-xl font-bold">
     Total :
     <span id="total-price">{{ total_price|number_format(2, ',', ' ') }} €</span>
   </div>
+
   {% endif %}
 </div>
 
