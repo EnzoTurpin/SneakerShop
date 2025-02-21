@@ -18,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
 {
+    // Construction du formulaire pour l'entité Article
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -43,7 +44,7 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'label' => 'Tailles (optionnel)',
             ])
-            // Nouveau champ pour la marque
+            // Champ pour la marque
             ->add('brand', ChoiceType::class, [
                 'choices'  => [
                     'Nike'    => 'Nike',
@@ -54,12 +55,12 @@ class ArticleType extends AbstractType
                 'placeholder' => 'Choisissez une marque (optionnel)',
                 'required' => false,
             ])
-            // Nouveau champ pour indiquer si c'est une nouveauté
+            // Champ pour indiquer si l'article est une nouveauté
             ->add('nouveaute', CheckboxType::class, [
                 'label'    => 'Nouvelle paire ?',
                 'required' => false,
             ])
-            // Champ pour uploader l'image (non mappé)
+            // Champ pour uploader l'image (non mappé sur l'entité)
             ->add('imageFile', FileType::class, [
                 'label' => 'Image de l\'article (fichier JPG, PNG...)',
                 'mapped' => false,
@@ -78,6 +79,7 @@ class ArticleType extends AbstractType
         ;
     }
 
+    // Configuration des options du formulaire
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

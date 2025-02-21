@@ -2,23 +2,31 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        {# Bloc titre #}
+    <title>
+        {% block title %}Welcome!{% endblock %}
+    </title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {# Bloc pour ajouter des feuilles de style spécifiques #}
         {% block stylesheets %}
         {% endblock %}
 
+        {# Bloc pour ajouter des scripts, incluant l'importmap #}
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     
     <body class="min-h-screen flex flex-col">
+        {# Inclusion de l'en-tête #}
         {% include 'header.html.twig' %}
 
+        {# Section principale, dont le contenu est défini par les templates enfants #}
         <main class="flex-grow">
             {% block body %}{% endblock %}
         </main>
         
+        {# Inclusion du pied de page #}
         {% include 'footer.html.twig' %}
     </body>
 </html>

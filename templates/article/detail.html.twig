@@ -3,6 +3,7 @@
 <div class="min-h-screen flex items-center">
   <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row items-center md:items-center">
+<<<<<<< HEAD
       {# Image de l'article #} {% if article.imageUrl %}
       <div class="md:w-1/2 flex justify-center">
         <img
@@ -30,9 +31,38 @@
               data-size="{{ size | trim }}"
             >
               {{ size | trim }}
+=======
+      
+      {# Colonne gauche : affichage de l'image si elle est définie #}
+      {% if article.imageUrl %}
+        <div class="md:w-1/2 flex justify-center">
+          <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="w-full max-w-md rounded shadow-lg">
+        </div>
+      {% endif %}
+      
+      {# Colonne droite : détails de l'article (nom, prix, tailles, description) #}
+      <div class="md:w-1/2 md:pl-8 mt-6 md:mt-0">
+        <h1 class="text-2xl font-bold mb-4">{{ article.nom }}</h1>
+        
+        {# Affichage du prix en vert et en gras #}
+        <p class="mb-4 text-xl font-bold text-green-600">Prix : {{ article.prix }} €</p>
+        
+        {# Affichage conditionnel des tailles sous forme de carrés #}
+        {% if article.tailles %}
+          {% set sizes = article.tailles|split(',') %}
+          <div class="mb-4">
+            <p class="font-medium mb-2 text-lg">Tailles :</p>
+            <div class="inline-grid grid-cols-4 gap-1 mx-auto">
+              {% for size in sizes %}
+                <div class="w-12 h-12 border border-gray-300 rounded flex items-center justify-center text-base">
+                  {{ size|trim }}
+                </div>
+              {% endfor %}
+>>>>>>> f0b152d7541f2d2dfc8782e81273869685b09a64
             </div>
             {% endfor %}
           </div>
+<<<<<<< HEAD
         </div>
         {% endif %} {# Bouton Ajouter au panier #}
         <button
@@ -44,6 +74,17 @@
         </button>
 
         <div class="text-lg text-gray-700 mt-4">
+=======
+        {% endif %}
+        
+        {# Bouton pour ajouter l'article au panier #}
+        <button class="mb-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors">
+          Ajouter au panier
+        </button>
+        
+        {# Description de l'article #}
+        <div class="text-lg text-gray-700">
+>>>>>>> f0b152d7541f2d2dfc8782e81273869685b09a64
           <p>{{ article.description }}</p>
         </div>
       </div>

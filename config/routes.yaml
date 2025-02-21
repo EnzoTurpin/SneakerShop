@@ -1,8 +1,11 @@
+# Configuration des routes pour les contrôleurs (définis via des attributs PHP)
 controllers:
   resource:
     path: ../src/Controller/
     namespace: App\Controller
   type: attribute
+
+# Route pour la liste des articles avec un paramètre "type"
 article_list:
   path: /articles/{type}
   controller: App\Controller\ArticleController::listByType
