@@ -16,7 +16,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
@@ -28,6 +27,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->urlGenerator = $urlGenerator;
     }
 
+    // Authentifie l'utilisateur via le formulaire de connexion
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
@@ -35,15 +35,20 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
-            [new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')), new RememberMeBadge()]
+            [
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new RememberMeBadge()
+            ]
         );
     }
 
+    // Redirige l'utilisateur après une authentification réussie
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
+    // Retourne l'URL de la page de connexion
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate('app_login');

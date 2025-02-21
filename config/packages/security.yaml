@@ -1,19 +1,25 @@
+# Configuration de la sécurité de l'application
 security:
+  # Configuration du hachage des mots de passe pour l'entité User
   password_hashers:
     App\Entity\User:
       algorithm: auto
 
+  # Fournisseur d'utilisateurs basé sur l'entité User (identifié par l'email)
   providers:
     app_user_provider:
       entity:
         class: App\Entity\User
         property: email
 
+  # Définition des firewalls (zones de sécurité)
   firewalls:
+    # Firewall pour le développement : désactive la sécurité pour certains assets et outils
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
 
+    # Firewall principal de l'application
     main:
       lazy: true
       provider: app_user_provider
@@ -22,10 +28,10 @@ security:
         login_path: app_login
         check_path: app_login
         default_target_path: /
-      logout:
         path: app_logout
         target: /
 
+  # Règles d'accès pour différentes routes
   access_control:
     - { path: ^/login, roles: PUBLIC_ACCESS }
     - { path: ^/register, roles: PUBLIC_ACCESS }

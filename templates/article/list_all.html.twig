@@ -1,6 +1,7 @@
 {# templates/article/list_all.html.twig #}
 {% extends 'base.html.twig' %}
 
+{# Bloc de titre : affiche le titre en fonction de la présence d'une sous-catégorie et du type d'article #}
 {% block title %}
   {% if subcategory is defined %}
     {% if subcategory|lower in ['nouveaute', 'nouveauté'] %}
@@ -22,7 +23,10 @@
   {% endif %}
 {% endblock %}
 
+{# Bloc body : affiche le titre principal et la liste des articles ou un message si aucun article n'est trouvé #}
 {% block body %}
+
+  {# Préparation de l'affichage de la sous-catégorie si définie #}
   {% if subcategory is defined %}
     {% if subcategory|lower in ['nouveaute', 'nouveauté'] %}
       {% set displaySubcat = "Nouveauté" %}
@@ -30,6 +34,7 @@
       {% set displaySubcat = subcategory|replace({'-': ' '})|lower|replace({' d ': " d'"})|mb_title %}
     {% endif %}
   {% endif %}
+  
   <h1 class="text-2xl font-bold mb-6 text-center">
     {% if subcategory is defined %}
       {% if type == 'Accessoires' %}
@@ -49,6 +54,7 @@
   {% if articles is empty %}
     <p class="text-gray-700 text-center">Aucun article n'a été trouvé.</p>
   {% else %}
+    {# Affichage de la grille d'articles #}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
       {% for article in articles %}
         <a href="{{ path('article_detail', {id: article.id}) }}" class="block">

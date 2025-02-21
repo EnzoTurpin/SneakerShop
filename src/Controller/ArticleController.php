@@ -24,11 +24,12 @@ class ArticleController extends AbstractController
         $article = new Article();
         $article->setDatePublication(new \DateTime());
 
+        // Création du formulaire et traitement de la requête
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le fichier uploadé depuis le champ imageFile (non mappé)
+            // Gestion de l'upload de l'image
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
                 // Générer un nom de fichier sécurisé
@@ -47,10 +48,11 @@ class ArticleController extends AbstractController
                     $this->addFlash('error', 'Erreur lors de l\'upload de l\'image.');
                 }
 
-                // Mettre à jour l'entité avec le nouveau nom de fichier (ou chemin relatif)
+                // Mise à jour de l'entité avec le nom du fichier uploadé
                 $article->setImageUrl('/uploads/'.$newFilename);
             }
 
+            // Enregistrement de l'article en base de données
             $entityManager = $doctrine->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
@@ -81,8 +83,10 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    // Méthodes d'affichage des articles par type
+
     /**
-     * Affiche les articles pour "Homme"
+     * Liste des articles pour "Homme".
      */
     #[Route('/articles/homme', name: 'article_homme')]
     public function listHomme(ManagerRegistry $doctrine): Response
@@ -97,6 +101,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * Liste des articles pour "Femme".
+     */
     #[Route('/articles/femme', name: 'article_femme')]
     public function listFemme(ManagerRegistry $doctrine): Response
     {
@@ -110,6 +117,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+     /**
+     * Liste des articles pour "Enfant".
+     */
     #[Route('/articles/enfant', name: 'article_enfant')]
     public function listEnfant(ManagerRegistry $doctrine): Response
     {
@@ -123,6 +133,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * Liste des articles pour "Mixte".
+     */
     #[Route('/articles/mixte', name: 'article_mixte')]
     public function listMixte(ManagerRegistry $doctrine): Response
     {
@@ -136,6 +149,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+     /**
+     * Liste des articles pour "Accessoires".
+     */
     #[Route('/articles/accessoires', name: 'article_accessoires')]
     public function listAccessoires(ManagerRegistry $doctrine): Response
     {
@@ -149,6 +165,10 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * Liste des articles par catégorie et sous-catégorie.
+     * La sous-catégorie peut indiquer une nouveauté ou une marque.
+     */
     #[Route('/articles/{category}/{subcategory}', name: 'article_by_category', requirements: [
         'category' => '(?i:Homme|Femme|Enfant|Mixte|Accessoires)',
         'subcategory' => '.+'
@@ -158,7 +178,7 @@ class ArticleController extends AbstractController
         $repository = $doctrine->getRepository(Article::class);
         /** @var \Doctrine\ORM\EntityRepository $repository */
 
-        // Si la sous-catégorie indique "nouveaute" ou "nouveauté" (insensible à la casse)
+        // Traitement spécifique pour "nouveaute" ou "nouveauté"
         if (mb_strtolower(trim($subcategory)) === 'nouveaute' || mb_strtolower(trim($subcategory)) === 'nouveauté') {
             $qb = $repository->createQueryBuilder('a')
                 ->where('a.type = :category')
@@ -167,7 +187,7 @@ class ArticleController extends AbstractController
                 ->orderBy('a.datePublication', 'DESC');
             $articles = $qb->getQuery()->getResult();
         } else {
-            // Sinon, filtrer par marque : transformer la sous-catégorie pour que la première lettre soit en majuscule
+            // Filtrer par marque
             $brand = ucfirst(mb_strtolower(trim($subcategory)));
             $articles = $repository->findBy(
                 ['type' => ucfirst(mb_strtolower($category)), 'brand' => $brand],

@@ -1,4 +1,5 @@
 services:
+  # Services liés à la sécurité (authentification et gestion des accès refusés)
   App\Security\LoginFormAuthenticator:
     autowire: true
     autoconfigure: true
@@ -9,15 +10,18 @@ services:
     autoconfigure: true
     public: false
 
+  # Extension Twig personnalisée
   App\Twig\AppExtension:
     tags: ["twig.extension"]
 
+  # Enregistrement automatique des contrôleurs
   App\Controller\:
     resource: "../src/Controller"
     autowire: true
     autoconfigure: true
     public: true
 
+  # Enregistrement automatique des repositories
   App\Repository\:
     resource: "../src/Repository"
     autowire: true

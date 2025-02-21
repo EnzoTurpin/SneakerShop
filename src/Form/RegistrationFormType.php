@@ -1,6 +1,6 @@
 <?php
-
 // src/Form/RegistrationFormType.php
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType
 {
+    // Construction du formulaire d'inscription
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,6 +28,7 @@ class RegistrationFormType extends AbstractType
             ]);
     }
 
+    // Configuration des options du formulaire
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
