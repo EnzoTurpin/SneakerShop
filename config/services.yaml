@@ -4,8 +4,23 @@ services:
     autoconfigure: true
     public: false
 
+  App\Security\AccessDeniedHandler:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  App\Twig\AppExtension:
+    tags: ["twig.extension"]
+
   App\Controller\:
     resource: "../src/Controller"
     autowire: true
     autoconfigure: true
     public: true
+
+  App\Repository\:
+    resource: "../src/Repository"
+    autowire: true
+    autoconfigure: true
+    public: false
+    tags: ["doctrine.repository_service"]

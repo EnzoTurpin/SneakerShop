@@ -97,10 +97,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche les articles pour "Femme"
-     */
-    #[Route('/articles/Femme', name: 'article_femme')]
+    #[Route('/articles/femme', name: 'article_femme')]
     public function listFemme(ManagerRegistry $doctrine): Response
     {
         $articles = $doctrine->getRepository(Article::class)->findBy(
@@ -113,9 +110,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche les articles pour "Enfant"
-     */
     #[Route('/articles/enfant', name: 'article_enfant')]
     public function listEnfant(ManagerRegistry $doctrine): Response
     {
@@ -129,9 +123,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche les articles pour "Mixte"
-     */
     #[Route('/articles/mixte', name: 'article_mixte')]
     public function listMixte(ManagerRegistry $doctrine): Response
     {
@@ -145,9 +136,6 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche les articles pour "Accessoires"
-     */
     #[Route('/articles/accessoires', name: 'article_accessoires')]
     public function listAccessoires(ManagerRegistry $doctrine): Response
     {
@@ -158,6 +146,39 @@ class ArticleController extends AbstractController
         return $this->render('article/list_all.html.twig', [
             'articles' => $articles,
             'type' => 'Accessoires',
+        ]);
+    }
+
+    #[Route('/articles/{category}/{subcategory}', name: 'article_by_category', requirements: [
+        'category' => '(?i:Homme|Femme|Enfant|Mixte|Accessoires)',
+        'subcategory' => '.+'
+    ])]
+    public function listByCategory(string $category, string $subcategory, ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Article::class);
+        /** @var \Doctrine\ORM\EntityRepository $repository */
+
+        // Si la sous-catégorie indique "nouveaute" ou "nouveauté" (insensible à la casse)
+        if (mb_strtolower(trim($subcategory)) === 'nouveaute' || mb_strtolower(trim($subcategory)) === 'nouveauté') {
+            $qb = $repository->createQueryBuilder('a')
+                ->where('a.type = :category')
+                ->andWhere('a.nouveaute = true')
+                ->setParameter('category', ucfirst(mb_strtolower($category)))
+                ->orderBy('a.datePublication', 'DESC');
+            $articles = $qb->getQuery()->getResult();
+        } else {
+            // Sinon, filtrer par marque : transformer la sous-catégorie pour que la première lettre soit en majuscule
+            $brand = ucfirst(mb_strtolower(trim($subcategory)));
+            $articles = $repository->findBy(
+                ['type' => ucfirst(mb_strtolower($category)), 'brand' => $brand],
+                ['datePublication' => 'DESC']
+            );
+        }
+
+        return $this->render('article/list_all.html.twig', [
+            'articles'    => $articles,
+            'type'        => ucfirst(mb_strtolower($category)),
+            'subcategory' => $subcategory,
         ]);
     }
 }

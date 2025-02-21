@@ -1,17 +1,40 @@
-{% extends 'base.html.twig' %} {% block body %}
-<h1>Connexion</h1>
-{% if error %}
-<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
-<form method="post">
-  <input
-    type="text"
-    name="_username"
-    value="{{ last_username }}"
-    placeholder="Email ou Username"
-    required
-  />
-  <input type="password" name="_password" placeholder="Mot de passe" required />
-  <button type="submit">Se connecter</button>
-</form>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+  <h1 class="text-2xl font-bold mb-4 text-center">Connexion</h1>
+  
+  {% if error %}
+    <div class="text-red-600 mb-4">
+      {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+  {% endif %}
+  
+  <form method="post" class="space-y-4">
+    <input
+      type="text"
+      name="_username"
+      value="{{ last_username }}"
+      placeholder="Email"
+      required
+      class="w-full px-4 py-2 border border-gray-300 rounded"
+    />
+    <input
+      type="password"
+      name="_password"
+      placeholder="Mot de passe"
+      required
+      class="w-full px-4 py-2 border border-gray-300 rounded"
+    />
+    
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors">
+      Se connecter
+    </button>
+  </form>
+  
+  <p class="mt-4 text-center">
+    Vous n'avez pas encore de compte ? 
+    <a href="{{ path('app_register') }}" class="text-blue-600 underline">Inscrivez-vous ici</a>.
+  </p>
+</div>
 {% endblock %}

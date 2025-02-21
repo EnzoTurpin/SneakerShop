@@ -10,14 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Security\LoginFormAuthenticator;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, UserAuthenticatorInterface $authenticator, LoginFormAuthenticator $loginAuthenticator): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -27,10 +28,19 @@ class RegistrationController extends AbstractController
                 $passwordHasher->hashPassword($user, $form->get('plainPassword')->getData())
             );
 
+            // Initialiser le solde si nécessaire
+            if (!$user->getSolde()) {
+                $user->setSolde(0.0);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $authenticator->authenticateUser($user, $loginAuthenticator, $request);
+            // Ajoute un flash message si besoin
+            $this->addFlash('success', 'Votre compte a été créé. Veuillez vous connecter.');
+
+            // Redirige vers la page de connexion
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
