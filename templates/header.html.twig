@@ -1,94 +1,81 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<header class="header">
-    <div class="logo">
-        <img src="path_to_logo.png" alt="Logo" />
-    </div>
+<header class="bg-white shadow-md w-full">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        
+        <!-- Logo -->
+        <a href="{{ path('homepage') }}" class="text-2xl font-bold">SneakerShop</a>
 
-    <div class="search-bar">
-        <input type="text" placeholder="Rechercher..." />
-        <button><i class="fas fa-search"></i></button>
-    </div>
+        <!-- Barre de recherche -->
+        <div class="relative w-1/3">
+            <input type="text" placeholder="Rechercher..." class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+                🔍
+            </button>
+        </div>
 
-    <nav class="navbar">
-        <ul>
-             <li class="dropdown">
-                <a href="#">Homme</a>
-                <!-- Sous-menu Homme -->
-                <ul class="dropdown-menu">
-                    <li><a href="#">Nouveauté</a></li>
-                    <li><a href="#">Nike</a></li>
-                    <li><a href="#">Adidas</a></li>
-                    <li><a href="#">Puma</a></li>
-                    <li><a href="#">Reebok</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#">Femme</a>
-                <!-- Sous-menu Femme -->
-                <ul class="dropdown-menu">
-                    <li><a href="#">Nouveauté</a></li>
-                    <li><a href="#">Nike</a></li>
-                    <li><a href="#">Adidas</a></li>
-                    <li><a href="#">Puma</a></li>
-                    <li><a href="#">Reebok</a></li>
-                </ul>
-            </li>
-            <li class ="dropdown">
-                <a href="#">Mixte</a>
-                <!-- Sous-menu Mixte -->
-                <ul class="dropdown-menu">
-                    <li><a href="#">Nouveauté</a></li>
-                    <li><a href="#">Nike</a></li>
-                    <li><a href="#">Adidas</a></li>
-                    <li><a href="#">Puma</a></li>
-                    <li><a href="#">Reebok</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#">Enfant</a>
-                <!-- Sous-menu Enfant -->
-                <ul class="dropdown-menu">
-                    <li><a href="#">Nouveauté</a></li>
-                    <li><a href="#">Nike</a></li>
-                    <li><a href="#">Adidas</a></li>
-                    <li><a href="#">Puma</a></li>
-                    <li><a href="#">Reebok</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#">Accessoires</a>
-                <!-- Sous-menu Accessoires -->
-                <ul class="dropdown-menu">
-                    <li><a href="#">Nouveauté</a></li>
-                    <li><a href="#">Chaussettes</a></li>
-                    <li><a href="#">Lacets</a></li>
-                    <li><a href="#">Semelles</a></li>
-                    <li><a href="#">Produits d'entretiens</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <nav class="icons">
-        <ul> 
-            <li class="dropdown">
-                <a href="#profile" class="icon"><i class="fas fa-user"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Mon compte</a></li>
-                    <li><a href="#">Modifier le profil</a></li>
-                    <li><a href="#">Aide et support</a></li>
-                    <li><a href="#">Déconnexion</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
-                <ul class="dropdown-menu">
-                <li><a href="#">Mon panier</a></li>
-                <li><a href="#">Mes commandes</a></li>
-                <li><a href="#">Mes favoris</a></li>
-                </ul>
-            </li>
-        </ul>
+        <!-- Navigation -->
+        <nav class="flex space-x-6">
+            {% set categories = {
+                'homme': 'Homme',
+                'femme': 'Femme',
+                'mixte': 'Mixte',
+                'enfant': 'Enfant'
+            } %}
+            {% set marques = ['nouveauté', 'nike', 'adidas', 'puma', 'reebok'] %}
+            {% set accessoires = ['nouveauté', 'chaussettes', 'lacets', 'semelles', 'produits-d-entretien'] %}
+            {% set ventes = 'Ventes' %}
+
+            <!-- Sections Homme, Femme, Mixte, Enfant -->
+            {% for key, label in categories %}
+                <div class="relative group">
+                    <a href="{{ path(key) }}" class="text-gray-800 hover:text-blue-500">{{ label }}</a>
+                    <div class="absolute left-0 mt-2 bg-white shadow-lg rounded-lg hidden group-hover:block">
+                        <ul class="w-40 py-2">
+                            {% for marque in marques %}
+                                <li><a href="/{{ key }}/{{ marque }}" class="block px-4 py-2 hover:bg-gray-200">{{ marque|capitalize }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Section Accessoires -->
+            <div class="relative group">
+                <a href="{{ path('accessoires') }}" class="text-gray-800 hover:text-blue-500">Accessoires</a>
+                <div class="absolute left-0 mt-2 bg-white shadow-lg rounded-lg hidden group-hover:block">
+                    <ul class="grid grid-cols-2 gap-2 w-60 py-2">
+                        {% for accessoire in accessoires %}
+                            <li><a href="/accessoires/{{ accessoire }}" class="block px-4 py-2 hover:bg-gray-200">{{ accessoire|capitalize }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section Ventes -->
+            <a href="{{ path('ventes') }}" class="text-gray-800 hover:text-blue-500">{{ ventes }}</a>
+
+            <!-- Icônes Profil & Panier -->
+            <div class="relative group">
+                <button class="text-gray-800 hover:text-blue-500">👤</button>
+                <div class="absolute right-0 mt-2 bg-white shadow-lg rounded-lg hidden group-hover:block w-40">
+                    <ul class="py-2">
+                        <li><a href="{{ path('mon_compte') }}" class="block px-4 py-2 hover:bg-gray-200">Mon compte</a></li>
+                        <li><a href="{{ path('modifier_profil') }}" class="block px-4 py-2 hover:bg-gray-200">Modifier le profil</a></li>
+                        <li><a href="{{ path('aide_support') }}" class="block px-4 py-2 hover:bg-gray-200">Aide & Support</a></li>
+                        <li><a href="{{ path('deconnexion') }}" class="block px-4 py-2 text-red-500 hover:bg-gray-200">Déconnexion</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="relative group">
+                <button class="text-gray-800 hover:text-blue-500">🛒</button>
+                <div class="absolute right-0 mt-2 bg-white shadow-lg rounded-lg hidden group-hover:block w-40">
+                    <ul class="py-2">
+                        <li><a href="{{ path('mon_panier') }}" class="block px-4 py-2 hover:bg-gray-200">Mon panier</a></li>
+                        <li><a href="{{ path('mes_commandes') }}" class="block px-4 py-2 hover:bg-gray-200">Mes commandes</a></li>
+                        <li><a href="{{ path('mes_favoris') }}" class="block px-4 py-2 hover:bg-gray-200">Mes favoris</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
 </header>
