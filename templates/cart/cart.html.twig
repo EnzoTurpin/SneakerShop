@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %} {% block title %}Mon Panier{% endblock %} {%
+block body %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Votre Panier</h1>
+
+  {% if cartItems is empty %}
+  <p class="text-gray-600">Votre panier est vide.</p>
+  {% else %}
+  <table
+    class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden"
+  >
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="px-4 py-2 text-left">Article</th>
+        <th class="px-4 py-2 text-center">Taille</th>
+        <th class="px-4 py-2 text-center">Quantité</th>
+        <th class="px-4 py-2 text-right">Prix</th>
+        <th class="px-4 py-2 text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cartItems %}
+      <tr class="border-t">
+        <td class="px-4 py-2">
+          <div class="flex items-center">
+            <img
+              src="{{ item.article.imageUrl }}"
+              alt="{{ item.article.nom }}"
+              class="w-20 h-20 object-cover rounded mr-4"
+            />
+            <span>{{ item.article.nom }}</span>
+          </div>
+        </td>
+        <td class="px-4 py-2 text-center">{{ item.taille }}</td>
+        <td class="px-4 py-2 text-center">
+          <input
+            type="number"
+            class="update-quantity border w-16 px-2 py-1 text-center rounded"
+            data-id="{{ item.article.id }}"
+            min="1"
+            max="10"
+            value="{{ item.quantite }}"
+          />
+        </td>
+        <td class="px-4 py-2 text-right font-bold text-green-600 price-cell">
+          {{ (item.article.prix * item.quantite)|number_format(2, ',', ' ') }} €
+        </td>
+        <td class="px-4 py-2 text-center">
+          <button
+            class="text-red-600 hover:text-red-800 remove-item"
+            data-id="{{ item.article.id }}"
+          >
+            ❌ Supprimer
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="mt-6 text-right text-xl font-bold">
+    Total :
+    <span id="total-price">{{ total_price|number_format(2, ',', ' ') }} €</span>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Suppression d'un article
+    document.querySelectorAll(".remove-item").forEach((button) => {
+      button.addEventListener("click", function () {
+        const articleId = this.dataset.id;
+
+        fetch(`/cart/remove/${articleId}`, {
+          method: "POST",
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        })
+          .then((response) => response.json())
+          .then((data) => location.reload())
+          .catch((error) => console.error("Erreur AJAX :", error));
+      });
+    });
+
+    // Mise à jour de la quantité dynamiquement
+    document.querySelectorAll(".update-quantity").forEach((input) => {
+      input.addEventListener("change", function () {
+        const articleId = this.dataset.id;
+        const nouvelleQuantite = this.value;
+
+        fetch(`/cart/update/${articleId}`, {
+          method: "POST",
+          headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantite: nouvelleQuantite }),
+        })
+          .then((response) => response.json())
+          .then((data) => location.reload())
+          .catch((error) => console.error("Erreur AJAX :", error));
+      });
+    });
+  });
+</script>
+{% endblock %}

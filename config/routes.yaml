@@ -10,3 +10,11 @@ article_list:
     type: homme
   requirements:
     type: homme|femme|enfant|mixte|accessoires
+cart_add:
+  path: /cart/add/{id}
+  controller: App\Controller\CartController::addToCart
+  methods: POST
+
+cart_show:
+  path: /cart
+  controller: App\Controller\CartController::showCart
