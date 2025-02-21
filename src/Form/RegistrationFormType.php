@@ -17,7 +17,7 @@ class RegistrationFormType extends AbstractType
         $builder
         ->add('email')
         ->add('username')
-        ->add('plainPassword', PasswordType::class, [
+        ->add('Password', PasswordType::class, [
         'mapped' => false,  // Empêche Doctrine de persister cette valeur directement
         'required' => true,
     ]);
