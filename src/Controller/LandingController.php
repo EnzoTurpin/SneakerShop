@@ -15,4 +15,25 @@ class LandingController extends AbstractController
     {
         return $this->render('landing/index.html.twig');
     }
+
+    // Route pour la page "Paires du moment"
+    #[Route('/moment', name: 'moment')]
+    public function moment(): Response
+    {
+        return $this->render('pages/moment.html.twig');
+    }
+
+    // Route pour la page "Ventes récentes"
+    #[Route('/sales', name: 'sales')]
+    public function sales(): Response
+    {
+        return $this->render('pages/sales.html.twig');
+    }
+
+    // Route pour la page "Sélection de l'équipe"
+    #[Route('/team', name: 'team')]
+    public function team(): Response
+    {
+        return $this->render('pages/team.html.twig');
+    }
 }
