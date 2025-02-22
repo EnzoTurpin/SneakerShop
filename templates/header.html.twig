@@ -1,85 +1,88 @@
 <head>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <header class="header">
-    <!-- Logo du site -->
+    <!-- Logo -->
     <div class="logo">
-        <img img src="{{ asset('images/logo.png') }} "alt="Logo" />
+      <img src="{{ asset('images/logo.png') }}" alt="Logo" />
     </div>
-    
+
     <!-- Barre de recherche -->
     <div class="search-bar">
-        <input type="text" placeholder="Rechercher..." />
-        <button><i class="fas fa-search"></i></button>
+      <input type="text" placeholder="Rechercher..." />
+      <button><i class="fas fa-search"></i></button>
     </div>
 
     <!-- Menu de navigation principal avec sous-menus -->
     <nav class="navbar">
-        <ul>
-             <li class="dropdown">
-                <a href="/articles/homme">Homme</a>
-                <!-- Sous-menu Homme -->
-                <ul class="dropdown-menu">
-                    <li><a href="/articles/homme/adidas">Adidas</a></li>
-                    <li><a href="/articles/homme/nike">Nike</a></li>
-                    <li><a href="/articles/homme/puma">Puma</a></li>
-                    <li><a href="/articles/homme/reebok">Reebok</a></li>
-                    <li><a href="/articles/homme/nouveaute">Nouveauté</a></li>
-                </ul>
-             </li>
-             <li class="dropdown">
-                <a href="/articles/femme">Femme</a>
-                <!-- Sous-menu Femme -->
-                <ul class="dropdown-menu">
-                    <li><a href="/articles/femme/adidas">Adidas</a></li>
-                    <li><a href="/articles/femme/nike">Nike</a></li>
-                    <li><a href="/articles/femme/puma">Puma</a></li>
-                    <li><a href="/articles/femme/reebok">Reebok</a></li>
-                    <li><a href="/articles/femme/nouveaute">Nouveauté</a></li>
-                </ul>
-             </li>
-             <li class="dropdown">
-                <a href="/articles/mixte">Mixte</a>
-                <!-- Sous-menu Mixte -->
-                <ul class="dropdown-menu">
-                    <li><a href="/articles/mixte/adidas">Adidas</a></li>
-                    <li><a href="/articles/mixte/nike">Nike</a></li>
-                    <li><a href="/articles/mixte/puma">Puma</a></li>
-                    <li><a href="/articles/mixte/reebok">Reebok</a></li>
-                    <li><a href="/articles/mixte/nouveaute">Nouveauté</a></li>
-                </ul>
-             </li>
-             <li class="dropdown">
-                <a href="/articles/enfant">Enfant</a>
-                <!-- Sous-menu Enfant -->
-                <ul class="dropdown-menu">
-                    <li><a href="/articles/enfant/adidas">Adidas</a></li>
-                    <li><a href="/articles/enfant/nike">Nike</a></li>
-                    <li><a href="/articles/enfant/puma">Puma</a></li>
-                    <li><a href="/articles/enfant/reebok">Reebok</a></li>
-                    <li><a href="/articles/enfant/nouveaute">Nouveauté</a></li>
-                </ul>
-             </li>
-             <li class="dropdown">
-                <a href="/articles/accessoires">Accessoires</a>
-                <!-- Sous-menu Accessoires -->
-                <ul class="dropdown-menu">
-                    <li><a href="/articles/accessoires/chaussettes">Chaussettes</a></li>
-                    <li><a href="/articles/accessoires/lacets">Lacets</a></li>
-                    <li><a href="/articles/accessoires/produits-d-entretien">Produits d'entretiens</a></li>
-                    <li><a href="/articles/accessoires/semelles">Semelles</a></li>
-                    <li><a href="/articles/accessoires/nouveaute">Nouveauté</a></li>
-                </ul>
-             </li>
-        </ul>
+      <ul>
+        <li class="dropdown">
+          <a href="{{ path('article_homme') }}">Homme</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('article_by_category', {category: 'Homme', subcategory: 'adidas'}) }}">Adidas</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Homme', subcategory: 'nike'}) }}">Nike</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Homme', subcategory: 'puma'}) }}">Puma</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Homme', subcategory: 'reebok'}) }}">Reebok</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Homme', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="{{ path('article_femme') }}">Femme</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('article_by_category', {category: 'Femme', subcategory: 'adidas'}) }}">Adidas</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Femme', subcategory: 'nike'}) }}">Nike</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Femme', subcategory: 'puma'}) }}">Puma</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Femme', subcategory: 'reebok'}) }}">Reebok</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Femme', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="{{ path('article_mixte') }}">Mixte</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('article_by_category', {category: 'Mixte', subcategory: 'adidas'}) }}">Adidas</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Mixte', subcategory: 'nike'}) }}">Nike</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Mixte', subcategory: 'puma'}) }}">Puma</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Mixte', subcategory: 'reebok'}) }}">Reebok</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Mixte', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="{{ path('article_enfant') }}">Enfant</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('article_by_category', {category: 'Enfant', subcategory: 'adidas'}) }}">Adidas</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Enfant', subcategory: 'nike'}) }}">Nike</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Enfant', subcategory: 'puma'}) }}">Puma</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Enfant', subcategory: 'reebok'}) }}">Reebok</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Enfant', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="{{ path('article_accessoires') }}">Accessoires</a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'chaussettes'}) }}">Chaussettes</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'lacets'}) }}">Lacets</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'produits-d-entretien'}) }}">Produits d'entretiens</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'semelles'}) }}">Semelles</a></li>
+            <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
+          </ul>
+        </li>
+        <!-- Lien vers la page de vente -->
+        <li>
+          <a href="{{ path('vente_articles') }}">Vendre / Annonces</a>
+        </li>          
+      </ul>
     </nav>
     
     <!-- Icônes pour le profil utilisateur et le panier -->
     <div class="icons">
+      <li class="dropdown">
         <a href="#profile" class="icon"><i class="fas fa-user"></i></a>
-        <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
+        <ul class="dropdown-menu">
+          <li><a href="/edit-profil">Modifier le profil</a></li>
+          <li><a href="/faq">Aide & Support</a></li>
+          <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+        </ul>
+      </li>  
+      <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
     </div>
-</header>
+  </header>

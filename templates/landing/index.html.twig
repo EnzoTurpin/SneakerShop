@@ -1,25 +1,6 @@
-{# templates/landing/index.html.twig #} {% extends 'base.html.twig' %} {# Titre
-de la page #} {% block title %} Bienvenue sur SneakerShop {% endblock %} {#
-Contenu principal du template #} {% block body %} {# Affichage d'un bandeau de
-statut de connexion #} {% if app.user %}
-<div class="p-4 bg-green-100 text-green-800 text-center">
-  Bienvenue,
-  {{ app.user.username is not empty ? app.user.username : app.user.email }} !
-</div>
-{% else %}
-<div class="p-4 bg-gray-100 text-gray-800 text-center">
-  Vous n'êtes pas connecté.
-</div>
-{% endif %} {# Header avec la navigation principale #}
-<header class="bg-white shadow">
-  <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="{{ path('landing') }}" class="text-2xl font-bold text-gray-800">
-      SneakerShop
-    </a>
-  </nav>
-</header>
+{# templates/landing/index.html.twig #}
+{% extends 'base.html.twig' %}
 
-<<<<<<< HEAD
 {% block title %}
     Bienvenue sur SneakerShop
 {% endblock %}
@@ -28,7 +9,12 @@ statut de connexion #} {% if app.user %}
   {# Bandeau de statut de connexion #}
   {% if app.user %}
     <div class="p-4 bg-green-100 text-green-800 text-center">
-      Bienvenue, {{ app.user.username is not empty ? app.user.username : app.user.email }} !
+      Bienvenue, {% if app.user %}
+      {{ app.user.username is not empty ? app.user.username : app.user.email }}
+    {% else %}
+      <span>Invité</span>
+    {% endif %}
+     !
     </div>
   {% else %}
     <div class="p-4 bg-gray-100 text-gray-800 text-center">
@@ -121,24 +107,4 @@ statut de connexion #} {% if app.user %}
       100% { transform: translateX(-50%); }
     }
   </style>
-=======
-{# Section héro de la page d'accueil #}
-<main class="container mx-auto px-4 py-8">
-  <section class="hero bg-gray-100 p-8 rounded-lg shadow-md text-center">
-    <h1 class="text-4xl font-extrabold text-gray-900 mb-4">
-      Bienvenue sur SneakerShop
-    </h1>
-    <p class="text-lg text-gray-700 mb-6">
-      Découvrez nos sneakers exclusives et trouvez la paire parfaite pour vous.
-    </p>
-  </section>
-</main>
-
-{# Pied de page #}
-<footer class="bg-gray-200 py-4">
-  <div class="container mx-auto text-center text-gray-600">
-    <p>&copy; {{ "now"|date("Y") }} SneakerShop. Tous droits réservés.</p>
-  </div>
-</footer>
->>>>>>> 2a080a4830b1038fdf7806525b76d81638d4dd0e
 {% endblock %}

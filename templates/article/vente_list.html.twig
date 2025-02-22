@@ -1,0 +1,36 @@
+{# templates/article/vente_list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Ventes entre particuliers{% endblock %}
+
+{% block body %}
+  <h1 class="text-2xl font-bold mb-6 text-center">Ventes entre particuliers</h1>
+
+  {% if articles is empty %}
+    <p class="text-gray-700 text-center">Aucune annonce n'a été trouvée.</p>
+  {% else %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+      {% for article in articles %}
+        <a href="{{ path('vente_article_detail', {id: article.id}) }}" class="block">
+          <div class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer max-w-sm">
+            {% if article.imageUrl %}
+              <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-4">
+              <h5 class="text-lg font-bold">{{ article.nom }}</h5>
+              <p class="mt-2 text-green-600 font-semibold">{{ article.prix }} €</p>
+              {% if article.auteur %}
+                <p class="mt-1 text-gray-600">
+                  Vendu par : {{ article.auteur.username is not empty ? article.auteur.username : article.auteur.email }}
+                </p>
+              {% endif %}
+              <p class="mt-1 text-gray-600">
+                État : {% if article.nouveaute %}Neuf{% else %}Occasion{% endif %}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

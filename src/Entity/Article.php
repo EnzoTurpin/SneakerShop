@@ -1,5 +1,4 @@
 <?php
-// src/Entity/Article.php
 
 namespace App\Entity;
 
@@ -11,43 +10,58 @@ class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type:"integer")]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(type:"string", length:255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(type:"text")]
+    #[ORM\Column(type: "text")]
     private ?string $description = null;
 
-    #[ORM\Column(type:"decimal", precision:10, scale:2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private ?string $prix = null;
 
-    #[ORM\Column(type:"datetime")]
+    #[ORM\Column(type: "datetime")]
     private ?\DateTimeInterface $datePublication = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
     #[ORM\JoinColumn(nullable: true)]
-    private ?User $auteur = null;
+    private ?\App\Entity\User $auteur = null;
 
-    #[ORM\Column(type:"string", length:255)]
+    #[ORM\Column(type: "string", length: 255)]
     #[Assert\Choice(choices: ["Homme", "Femme", "Enfant", "Mixte", "Accessoires"], message: "Choisissez un type valide.")]
     private ?string $type = null;
 
-    #[ORM\Column(type:"string", length:255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $imageUrl = null;
 
-    // Ajout du champ "tailles"
-    #[ORM\Column(type:"string", length:255, nullable: true)]
+    // Champ pour les tailles (facultatif)
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $tailles = null;
 
-    // Nouveau champ pour la marque
-    #[ORM\Column(type:"string", length:255, nullable: true)]
+    // Champ pour la marque (facultatif)
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $brand = null;
 
-    // Nouveau champ pour indiquer si c'est une nouveauté
-    #[ORM\Column(type:"boolean", options: ['default' => false])]
+    // Champ pour indiquer si c'est une nouveauté (true = neuf, false = occasion)
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
     private bool $nouveaute = false;
+
+    // Champ pour la quantité
+    #[ORM\Column(type: "integer", options: ["default" => 1])]
+    private ?int $quantite = 1;
+
+    // Champ pour l'état ("Neuf" ou "Occasion")
+    #[ORM\Column(type: "string", length: 50, nullable: true)]
+    private ?string $etat = null;
+
+    /**
+     * Champ dédié pour différencier un article créé par l'admin d'une annonce utilisateur.
+     * true => créé par l'admin, false => créé par un utilisateur lambda.
+     */
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
+    private bool $createdByAdmin = false;
 
     // Getters et setters
 
@@ -100,12 +114,12 @@ class Article
         return $this;
     }
 
-    public function getAuteur(): ?User
+    public function getAuteur(): ?\App\Entity\User
     {
         return $this->auteur;
     }
 
-    public function setAuteur(?User $auteur): self
+    public function setAuteur(?\App\Entity\User $auteur): self
     {
         $this->auteur = $auteur;
         return $this;
@@ -127,7 +141,7 @@ class Article
         return $this->imageUrl;
     }
 
-    public function setImageUrl(string $imageUrl): static
+    public function setImageUrl(string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
         return $this;
@@ -163,6 +177,39 @@ class Article
     public function setNouveaute(bool $nouveaute): self
     {
         $this->nouveaute = $nouveaute;
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
+        return $this;
+    }
+
+    public function isCreatedByAdmin(): bool
+    {
+        return $this->createdByAdmin;
+    }
+
+    public function setCreatedByAdmin(bool $createdByAdmin): self
+    {
+        $this->createdByAdmin = $createdByAdmin;
         return $this;
     }
 }

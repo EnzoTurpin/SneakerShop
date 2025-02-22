@@ -1,0 +1,39 @@
+{# templates/article/sale_list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces de Vente{% endblock %}
+
+{% block body %}
+  <h1 class="text-2xl font-bold mb-6 text-center">Annonces de Vente</h1>
+
+  {% if annonces is empty %}
+    <p class="text-gray-700 text-center">Aucune annonce n'a été trouvée.</p>
+  {% else %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+      {% for annonce in annonces %}
+        <a href="{{ path('article_detail', {id: annonce.id}) }}" class="block">
+          <div class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer max-w-sm">
+            {% if annonce.imageUrl %}
+              <img src="{{ annonce.imageUrl }}" alt="{{ annonce.nom }}" class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-4">
+              <h5 class="text-lg font-bold">{{ annonce.nom }}</h5>
+              <p class="mt-2 text-green-600 font-semibold">{{ annonce.prix }} €</p>
+              <p class="mt-1 text-gray-600">
+                Vendu par : 
+                {% if annonce.auteur %}
+                  {{ annonce.auteur.username is not empty ? annonce.auteur.username : annonce.auteur.email }}
+                {% else %}
+                  Utilisateur inconnu
+                {% endif %}
+              </p>
+              <p class="mt-1 text-gray-600">
+                État : {% if annonce.nouveaute %}Neuf{% else %}Occasion{% endif %}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

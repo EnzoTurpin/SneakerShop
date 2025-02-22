@@ -7,18 +7,17 @@ use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType; // Ajouté pour le champ "nouveaute"
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
 {
-    // Construction du formulaire pour l'entité Article
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -26,9 +25,6 @@ class ArticleType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('prix', MoneyType::class, [
                 'currency' => 'EUR',
-            ])
-            ->add('datePublication', DateTimeType::class, [
-                'widget' => 'single_text',
             ])
             ->add('type', ChoiceType::class, [
                 'choices'  => [
@@ -44,23 +40,26 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'label' => 'Tailles (optionnel)',
             ])
-            // Champ pour la marque
-            ->add('brand', ChoiceType::class, [
-                'choices'  => [
-                    'Nike'    => 'Nike',
-                    'Adidas'  => 'Adidas',
-                    'Puma'    => 'Puma',
-                    'Reebok'  => 'Reebok',
-                ],
-                'placeholder' => 'Choisissez une marque (optionnel)',
+            ->add('brand', TextType::class, [
                 'required' => false,
+                'label' => 'Marque (optionnel)',
             ])
-            // Champ pour indiquer si l'article est une nouveauté
+            ->add('quantite', IntegerType::class, [
+                'label' => 'Quantité',
+                'data' => 1,
+            ])
+            ->add('etat', ChoiceType::class, [
+                'choices' => [
+                    'Neuf' => 'Neuf',
+                    'Occasion' => 'Occasion',
+                ],
+                'placeholder' => 'Choisissez l\'état',
+                'required' => true,
+            ])
             ->add('nouveaute', CheckboxType::class, [
                 'label'    => 'Nouvelle paire ?',
                 'required' => false,
             ])
-            // Champ pour uploader l'image (non mappé sur l'entité)
             ->add('imageFile', FileType::class, [
                 'label' => 'Image de l\'article (fichier JPG, PNG...)',
                 'mapped' => false,
@@ -79,7 +78,6 @@ class ArticleType extends AbstractType
         ;
     }
 
-    // Configuration des options du formulaire
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

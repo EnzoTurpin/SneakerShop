@@ -28,3 +28,6 @@ services:
     autoconfigure: true
     public: false
     tags: ["doctrine.repository_service"]
+
+parameters:
+  uploads_directory: "%kernel.project_dir%/public/uploads"
