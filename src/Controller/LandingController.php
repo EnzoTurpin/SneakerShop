@@ -12,7 +12,7 @@ class LandingController extends AbstractController
     // Route pour la page de destination
     #[Route('/', name: 'landing')]
     public function index(): Response
-    {
+    { 
         return $this->render('landing/index.html.twig');
     }
 
@@ -35,5 +35,12 @@ class LandingController extends AbstractController
     public function team(): Response
     {
         return $this->render('pages/team.html.twig');
+    }
+
+    // Route pour la page "Mentions Légales"
+    #[Route('/legal-notice', name: 'legal_notice')]
+    public function legalNotice(): Response
+    {
+        return $this->render('pages/legal_notice.html.twig');
     }
 }
