@@ -65,7 +65,7 @@
       const maxTranslate = -(carousel.children.length - 5) * 20;
       currentTranslate += direction * 20;
       currentTranslate = Math.max(maxTranslate, Math.min(0, currentTranslate));
-      carousel.style.transform = `translateX(${currentTranslate}%)`;
+      carousel.style.transform = `translateX(${currentTranslate%)`;
       carousel.dataset.translate = currentTranslate;
     }
   </script>
