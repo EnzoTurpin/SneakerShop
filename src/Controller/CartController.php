@@ -74,37 +74,96 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart/update/{id}', name: 'cart_update', methods: ['POST'])]
-    public function updateQuantity(int $id, Request $request, SessionInterface $session): JsonResponse
-    {
+    public function updateQuantity(
+        int $id,
+        Request $request,
+        SessionInterface $session,
+        ArticleRepository $articleRepository
+    ): JsonResponse {
         $cart = $session->get('cart', []);
         $data = json_decode($request->getContent(), true);
         $nouvelleQuantite = $data['quantite'] ?? null;
+        // Optionnellement, vous pouvez transmettre la taille pour cibler une ligne précise
+        $taille = $data['taille'] ?? null;
 
         if (!$nouvelleQuantite || $nouvelleQuantite < 1 || $nouvelleQuantite > 10) {
             return new JsonResponse(['message' => "Quantité invalide"], 400);
         }
 
-        if (isset($cart[$id])) {
-            foreach ($cart[$id] as $taille => $quantite) {
-                $cart[$id][$taille] = $nouvelleQuantite;
-            }
-            $session->set('cart', $cart);
-
-            return new JsonResponse(['message' => "Quantité mise à jour", 'cart' => $cart]);
+        if (!isset($cart[$id])) {
+            return new JsonResponse(['message' => "Article non trouvé"], 400);
         }
 
-        return new JsonResponse(['message' => "Article non trouvé"], 400);
+        // Si une taille est précisée, mise à jour uniquement de cette entrée
+        if ($taille !== null) {
+            if (!isset($cart[$id][$taille])) {
+                return new JsonResponse(['message' => "Taille non trouvée pour cet article"], 400);
+            }
+            $cart[$id][$taille] = $nouvelleQuantite;
+        } else {
+            // Sinon, on met à jour la première taille disponible
+            $premiereTaille = array_key_first($cart[$id]);
+            $taille = $premiereTaille;
+            $cart[$id][$premiereTaille] = $nouvelleQuantite;
+        }
+        $session->set('cart', $cart);
+
+        // Récupérer l'article pour calculer le prix de la ligne
+        $article = $articleRepository->find($id);
+        if (!$article) {
+            return new JsonResponse(['message' => 'Article non trouvé'], 404);
+        }
+
+        // Calcul du prix pour la ligne concernée
+        $rowQuantite = $cart[$id][$taille];
+        $articlePrice = $article->getPrix() * $rowQuantite;
+
+        // Calcul du total du panier
+        $totalPrice = 0;
+        foreach ($cart as $articleId => $sizes) {
+            $a = $articleRepository->find($articleId);
+            if ($a) {
+                foreach ($sizes as $t => $qty) {
+                    $totalPrice += $a->getPrix() * $qty;
+                }
+            }
+        }
+
+        return new JsonResponse([
+            'message' => "Quantité mise à jour",
+            'article_price' => number_format($articlePrice, 2, ',', ' ') . ' €',
+            'total_price'   => number_format($totalPrice, 2, ',', ' ') . ' €',
+            'cart' => $cart
+        ]);
     }
 
     #[Route('/cart/remove/{id}', name: 'cart_remove', methods: ['POST'])]
-    public function removeFromCart(int $id, SessionInterface $session): JsonResponse
-    {
+    public function removeFromCart(
+        int $id,
+        SessionInterface $session,
+        ArticleRepository $articleRepository
+    ): JsonResponse {
         $cart = $session->get('cart', []);
 
         if (isset($cart[$id])) {
             unset($cart[$id]);
             $session->set('cart', $cart);
-            return new JsonResponse(['message' => "Article supprimé du panier"]);
+
+            // Recalcule du total du panier après suppression
+            $totalPrice = 0;
+            foreach ($cart as $articleId => $sizes) {
+                $a = $articleRepository->find($articleId);
+                if ($a) {
+                    foreach ($sizes as $t => $qty) {
+                        $totalPrice += $a->getPrix() * $qty;
+                    }
+                }
+            }
+
+            return new JsonResponse([
+                'message' => "Article supprimé du panier",
+                'total_price' => number_format($totalPrice, 2, ',', ' ') . ' €'
+            ]);
         }
 
         return new JsonResponse(['message' => "Erreur : Article non trouvé dans le panier"], 400);

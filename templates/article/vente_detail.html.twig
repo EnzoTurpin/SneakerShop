@@ -34,8 +34,54 @@
             Vendu par : {{ article.auteur.username is not empty ? article.auteur.username : article.auteur.email }}
           </p>
         {% endif %}
+        {# Bouton pour ajouter au panier (copié depuis detail.html.twig) #}
+        <button id="add-to-cart" class="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors">
+          Ajouter au panier
+        </button>
       </div>
     </div>
   </div>
 </div>
+
+{# JavaScript pour gérer la sélection de taille et l'ajout au panier #}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let selectedSize = null;
+    const sizeOptions = document.querySelectorAll(".size-option");
+    const addToCartButton = document.getElementById("add-to-cart");
+    const articleId = "{{ article.id }}"; // Récupération de l'ID de l'article
+
+    // Gérer la sélection des tailles (si tu utilises ce mécanisme)
+    sizeOptions.forEach((option) => {
+      option.addEventListener("click", function () {
+        sizeOptions.forEach((opt) =>
+          opt.classList.remove("bg-blue-500", "text-white", "selected")
+        );
+        this.classList.add("bg-blue-500", "text-white", "selected");
+        selectedSize = this.getAttribute("data-size");
+        addToCartButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+        addToCartButton.classList.add("bg-blue-600", "hover:bg-blue-700", "cursor-pointer");
+        addToCartButton.disabled = false;
+      });
+    });
+
+    // Ajouter au panier avec la taille sélectionnée
+    addToCartButton.addEventListener("click", function () {
+      if (!selectedSize) {
+        alert("Veuillez sélectionner une taille !");
+        return;
+      }
+      fetch(`/cart/add/${articleId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ taille: selectedSize }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+        })
+        .catch((error) => console.error("Erreur:", error));
+    });
+  });
+</script>
 {% endblock %}

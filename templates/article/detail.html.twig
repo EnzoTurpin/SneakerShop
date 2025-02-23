@@ -1,93 +1,108 @@
-{% extends 'base.html.twig' %} 
-
-{% block title %}Détail de l'article
-{% endblock%} 
-{% block body %}
-<div class="min-h-screen flex items-center">
-  <div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row items-center md:items-center">
-      {% if article.imageUrl %}
-        <div class="w-full md:w-1/2 flex justify-center">
-          <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="w-full max-w-md rounded shadow-lg">
+{% extends 'base.html.twig' %} {% block title %}Détail de l'article{% endblock
+  %} {% block body %}
+  <div class="min-h-screen flex items-center">
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex flex-col md:flex-row items-center md:items-center">
+        {# Image de l'article #} {% if article.imageUrl %}
+        <div class="md:w-1/2 flex justify-center">
+          <img
+            src="{{ article.imageUrl }}"
+            alt="{{ article.nom }}"
+            class="w-full max-w-md rounded shadow-lg"
+          />
         </div>
-      {% endif %}
-      <div class="w-full md:w-1/2 md:pl-8 mt-6 md:mt-0">
-        <h1 class="text-2xl font-bold mb-4">{{ article.nom }}</h1>
-        <p class="mb-4 text-xl font-bold text-green-600">Prix : {{ article.prix }} €</p>
-        {% if article.tailles %}
-          {% set sizes = article.tailles|split(',') %}
+        {% endif %} {# Détails de l'article #}
+        <div class="md:w-1/2 md:pl-8 mt-6 md:mt-0">
+          <h1 class="text-2xl font-bold mb-4">{{ article.nom }}</h1>
+  
+          <p class="mb-4 text-xl font-bold text-green-600">
+            Prix : {{ article.prix }} €
+          </p>
+  
+          {# Sélection des tailles #} {% if article.tailles %} {% set sizes =
+          article.tailles|split(',') %}
           <div class="mb-4">
             <p class="font-medium mb-2 text-lg">Tailles :</p>
-            <div class="inline-grid grid-cols-4 gap-1 mx-auto">
+            <div class="inline-grid grid-cols-4 gap-2 mx-auto">
               {% for size in sizes %}
-                <div class="w-12 h-12 border border-gray-300 rounded flex items-center justify-center text-base">
-                  {{ size|trim }}
-                </div>
+              <div
+                class="size-option w-12 h-12 border border-gray-300 rounded flex items-center justify-center text-base cursor-pointer hover:bg-gray-200"
+                data-size="{{ size | trim }}"
+              >
+                {{ size | trim }}
+              </div>
               {% endfor %}
+            </div>
           </div>
-        {% endif %}
-         {# Bouton pour ajouter l'article au panier #}
-         <button class="mb-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition-colors">
-          Ajouter au panier
-        </button>
-        <div class="text-lg text-gray-700">
-          <p>{{ article.description }}</p>
+          {% endif %} {# Bouton Ajouter au panier #}
+          <button
+            id="add-to-cart"
+            class="mt-4 px-6 py-2 bg-gray-400 text-white font-semibold rounded cursor-not-allowed"
+            disabled
+          >
+            Ajouter au panier
+          </button>
+  
+          {# Description de l'article #}
+          <div class="text-lg text-gray-700 mt-4">
+            <p>{{ article.description }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-{# JavaScript pour gérer la sélection de taille et l'ajout au panier #}
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let selectedSize = null;
-    const sizeOptions = document.querySelectorAll(".size-option");
-    const addToCartButton = document.getElementById("add-to-cart");
-    const articleId = "{{ article.id }}"; // Récupération de l'ID de l'article
-
-    // Gérer la sélection des tailles
-    sizeOptions.forEach((option) => {
-      option.addEventListener("click", function () {
-        // Réinitialiser toutes les tailles
-        sizeOptions.forEach((opt) =>
-          opt.classList.remove("bg-blue-500", "text-white", "selected")
-        );
-
-        // Marquer la taille sélectionnée
-        this.classList.add("bg-blue-500", "text-white", "selected");
-        selectedSize = this.getAttribute("data-size");
-
-        // Activer le bouton quand une taille est sélectionnée
-        addToCartButton.classList.remove("bg-gray-400", "cursor-not-allowed");
-        addToCartButton.classList.add(
-          "bg-blue-600",
-          "hover:bg-blue-700",
-          "cursor-pointer"
-        );
-        addToCartButton.disabled = false;
+  
+  {# JavaScript pour gérer la sélection de taille et l'ajout au panier #}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let selectedSize = null;
+      const sizeOptions = document.querySelectorAll(".size-option");
+      const addToCartButton = document.getElementById("add-to-cart");
+      const articleId = "{{ article.id }}"; // Récupération de l'ID de l'article
+  
+      // Gérer la sélection des tailles
+      sizeOptions.forEach((option) => {
+        option.addEventListener("click", function () {
+          // Réinitialiser toutes les tailles
+          sizeOptions.forEach((opt) =>
+            opt.classList.remove("bg-blue-500", "text-white", "selected")
+          );
+  
+          // Marquer la taille sélectionnée
+          this.classList.add("bg-blue-500", "text-white", "selected");
+          selectedSize = this.getAttribute("data-size");
+  
+          // Activer le bouton quand une taille est sélectionnée
+          addToCartButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+          addToCartButton.classList.add(
+            "bg-blue-600",
+            "hover:bg-blue-700",
+            "cursor-pointer"
+          );
+          addToCartButton.disabled = false;
+        });
+      });
+  
+      // Ajouter au panier avec la taille sélectionnée
+      addToCartButton.addEventListener("click", function () {
+        if (!selectedSize) {
+          alert("Veuillez sélectionner une taille !");
+          return;
+        }
+  
+        fetch(`/cart/add/${articleId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ taille: selectedSize }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+          })
+          .catch((error) => console.error("Erreur:", error));
       });
     });
-
-    // Ajouter au panier avec la taille sélectionnée
-    addToCartButton.addEventListener("click", function () {
-      if (!selectedSize) {
-        alert("Veuillez sélectionner une taille !");
-        return;
-      }
-
-      fetch(`/cart/add/${articleId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ taille: selectedSize }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert(data.message);
-        })
-        .catch((error) => console.error("Erreur:", error));
-    });
-  });
-</script>
-
-{% endblock %}
+  </script>
+  
+  {% endblock %}
+  

@@ -66,23 +66,25 @@
             <li><a href="{{ path('article_by_category', {category: 'Accessoires', subcategory: 'nouveaute'}) }}">Nouveauté</a></li>
           </ul>
         </li>
-        <!-- Lien vers la page de vente -->
         <li>
           <a href="{{ path('vente_articles') }}">Vendre / Annonces</a>
-        </li>          
+        </li>
       </ul>
     </nav>
     
     <!-- Icônes pour le profil utilisateur et le panier -->
     <div class="icons">
-      <li class="dropdown">
+      <div class="dropdown">
         <a href="#profile" class="icon"><i class="fas fa-user"></i></a>
         <ul class="dropdown-menu">
           <li><a href="/edit-profil">Modifier le profil</a></li>
           <li><a href="/faq">Aide & Support</a></li>
           <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
         </ul>
-      </li>  
-      <a href="#cart" class="icon"><i class="fas fa-shopping-cart"></i></a>
+      </div>
+      <a href="#cart" class="icon"></a>
+    <a href="{{ path('cart') }}" class="icon"
+      ><i class="fas fa-shopping-cart"></i
+    ></a>
     </div>
-  </header>
+</header>
