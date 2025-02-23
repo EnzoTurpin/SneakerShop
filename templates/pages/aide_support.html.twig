@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{# Bloc de titre : définit le titre de la page Aide & Support #}
+{% block title %}Aide & Support{% endblock %}
+
+{# Bloc body : contient le contenu principal de la page d'aide et de support #}
+{% block body %}
+<div class="container mx-auto px-6 py-8">
+    
+    {# En-tête : présente le titre principal et une brève description de la page #}
+    <section class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Aide & Support</h2>
+        <p class="text-gray-600">Retrouvez ici les réponses aux questions les plus fréquentes.</p>
+    </section>
+
+    {# Section FAQ : contient les questions fréquentes avec leurs réponses #}
+    <section class="bg-white mt-6 p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold mb-4">FAQ - Questions Fréquentes</h3>
+
+        {# Question 1 : Comment passer une commande ? #}
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Comment passer une commande ?</h4>
+            <p class="text-gray-600 mt-2">
+                Sélectionnez vos articles, ajoutez-les au panier, puis suivez les instructions de paiement.
+            </p>
+        </div>
+
+        {# Question 2 : Moyens de paiement acceptés #}
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Quels sont les moyens de paiement acceptés ?</h4>
+            <p class="text-gray-600 mt-2">
+                Nous acceptons Visa, Mastercard, PayPal et Apple Pay.
+            </p>
+        </div>
+
+        {# Question 3 : Délais de livraison #}
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Quels sont les délais de livraison ?</h4>
+            <p class="text-gray-600 mt-2">
+                La livraison standard prend 3 à 5 jours ouvrables.
+            </p>
+        </div>
+
+        {# Question 4 : Retourner un article #}
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Comment retourner un article ?</h4>
+            <p class="text-gray-600 mt-2">
+                Vous pouvez retourner un article dans un délai de 30 jours après réception. 
+                Consultez notre politique de retour pour plus de détail.
+            </p>
+        </div>
+
+        {# Question 5 : Suivi de commande #}
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Comment suivre ma commande ?</h4>
+            <p class="text-gray-600 mt-2">
+                Un numéro de suivi est envoyé par e-mail après l'expédition de votre commande.
+            </p>
+        </div>
+
+        {# Question 6 : Contacter le support client #}
+        <div class="py-4">
+            <h4 class="text-lg font-medium text-gray-700">Comment contacter le support client ?</h4>
+            <p class="text-gray-600 mt-2">
+                Via notre <a href="{{ path('contact') }}" class="text-blue-500 underline">page de contact</a>
+            </p>
+        </div>
+    </section>
+
+    {# Section Support Technique : fournit des informations spécifiques pour les problèmes techniques #}
+    <section class="bg-white mt-6 p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold mb-4">Support Technique</h3>
+
+        <div class="border-b border-gray-300 py-4">
+            <h4 class="text-lg font-medium text-gray-700">Mon compte est bloqué, comment le récupérer ?</h4>
+            <p class="text-gray-600 mt-2">
+                Contactez notre support client via la 
+                <a href="{{ path('contact') }}" class="text-blue-500 underline">page de contact</a> pour obtenir de l’aide.
+            </p>
+        </div>
+    </section>
+
+    {# Section Contact : invite l'utilisateur à contacter le support s'il a encore besoin d'aide #}
+    <section class="bg-gray-100 mt-6 p-6 rounded-lg shadow-md">
+        <h3 class="text-2xl font-semibold mb-4">Toujours besoin d'aide ?</h3>
+        <p class="text-gray-700 mb-4">
+            Notre équipe est à votre disposition pour répondre à toutes vos questions.
+        </p>
+        <a href="{{ path('contact') }}" class="bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600">
+            Contacter le support
+        </a>
+    </section>
+
+</div>
+{% endblock %}

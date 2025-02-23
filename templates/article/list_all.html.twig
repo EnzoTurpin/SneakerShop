@@ -1,19 +1,25 @@
 {# templates/article/list_all.html.twig #}
 {% extends 'base.html.twig' %}
 
+{# Bloc de titre : définit le titre de la page en fonction de la sous-catégorie et du type d'article #}
 {% block title %}
+  {# Si une sous-catégorie est définie, on la traite pour l'affichage #}
   {% if subcategory is defined %}
+    {# Cas particulier pour "nouveaute" ou "nouveauté" #}
     {% if subcategory|lower in ['nouveaute', 'nouveauté'] %}
       {% set displaySubcat = "Nouveauté" %}
     {% else %}
+      {# Transformation de la sous-catégorie pour un affichage plus lisible #}
       {% set displaySubcat = subcategory|replace({'-': ' '})|lower|replace({' d ': " d'"})|mb_title %}
     {% endif %}
+    {# Construction du titre en fonction du type d'article #}
     {% if type == 'Accessoires' %}
       {{ displaySubcat }}
     {% else %}
       Sneakers {{ type }} – {{ displaySubcat }}
     {% endif %}
   {% else %}
+    {# Si aucune sous-catégorie n'est définie, on utilise seulement le type #}
     {% if type == 'Accessoires' %}
       Accessoires
     {% else %}
@@ -22,7 +28,9 @@
   {% endif %}
 {% endblock %}
 
+{# Bloc body : contenu principal affiché sur la page #}
 {% block body %}
+  {# Initialisation de displaySubcat si la sous-catégorie est présente #}
   {% if subcategory is defined %}
     {% if subcategory|lower in ['nouveaute', 'nouveauté'] %}
       {% set displaySubcat = "Nouveauté" %}
@@ -31,7 +39,8 @@
     {% endif %}
   {% endif %}
   
-  <h1 class="text-2xl font-bold mb-6 text-center">
+  {# Affichage du titre principal de la page en fonction des paramètres #}
+  <h1 class="text-2xl font-bold mt-6 mb-6 text-center">
     {% if subcategory is defined %}
       {% if type == 'Accessoires' %}
         {{ displaySubcat }}
@@ -47,18 +56,24 @@
     {% endif %}
   </h1>
   
+  {# Vérification de la présence d'articles #}
   {% if articles is empty %}
     <p class="text-gray-700 text-center">Aucun article n'a été trouvé.</p>
   {% else %}
+    {# Affichage de la grille des articles si la liste n'est pas vide #}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
+      {# Parcours de la liste des articles #}
       {% for article in articles %}
         <a href="{{ path('article_detail', {id: article.id}) }}" class="block">
           <div class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer max-w-sm">
+            {# Affichage de l'image de l'article, si elle existe #}
             {% if article.imageUrl %}
               <img src="{{ article.imageUrl }}" alt="{{ article.nom }}" class="w-full h-48 object-cover">
             {% endif %}
             <div class="p-4">
+              {# Affichage du nom de l'article #}
               <h5 class="text-lg font-bold">{{ article.nom }}</h5>
+              {# Affichage du prix de l'article #}
               <p class="mt-2 text-green-600 font-semibold">{{ article.prix }} €</p>
             </div>
           </div>

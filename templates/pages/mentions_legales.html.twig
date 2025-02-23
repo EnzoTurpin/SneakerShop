@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{# Bloc de titre : définit le titre de la page Mentions Légales #}
+{% block title %} Mentions Légales {% endblock %}
+
+{# Bloc body : contient le contenu principal de la page des mentions légales #}
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    {# Titre principal de la page #}
+    <h1 class="text-3xl font-bold mb-6">Mentions Légales</h1>
+    
+    {# Section "Éditeur du site" : informations sur l'entreprise éditrice #}
+    <h2 class="text-xl font-semibold mt-4">Éditeur du site</h2>
+    <p><strong>Nom :</strong> SneakerShop</p>
+    <p><strong>Forme juridique :</strong> Société à responsabilité limitée (SARL)</p>
+    <p><strong>Capital social :</strong> 50 000€</p>
+    <p><strong>Siège social :</strong> 123 Rue des Sneakers, 75001 Paris, France</p>
+    <p><strong>Numéro SIRET :</strong> 123 456 789 00012</p>
+    <p><strong>Numéro TVA intracommunautaire :</strong> FR12345678901</p>
+    <p><strong>Email :</strong> contact@sneakershop.com</p>
+    <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+    
+    {# Section "Responsable de la publication" : informations sur la personne responsable de la publication #}
+    <h2 class="text-xl font-semibold mt-4">Responsable de la publication</h2>
+    <p><strong>Nom :</strong> Nom du responsable</p>
+    <p><strong>Email :</strong> responsable@sneakershop.com</p>
+
+    {# Section "Hébergement" : informations sur l'hébergeur du site #}
+    <h2 class="text-xl font-semibold mt-4">Hébergement</h2>
+    <p><strong>Hébergeur :</strong> Nom de l'hébergeur</p>
+    <p><strong>Forme juridique :</strong> Société Anonyme (SA)</p>
+    <p><strong>Adresse :</strong> Adresse complète de l'hébergeur</p>
+    <p><strong>Email :</strong> support@hebergeur.com</p>
+    <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+
+    {# Section "Données personnelles" : détails sur l'utilisation et la protection des données collectées #}
+    <h2 class="text-xl font-semibold mt-4">Données personnelles</h2>
+    <p>Les informations personnelles collectées sur ce site sont utilisées exclusivement pour la gestion de la relation client.</p>
+    <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d’un droit d’accès, de rectification et de suppression de vos données personnelles.</p>
+    <p>Pour exercer ces droits, vous pouvez nous contacter à l’adresse suivante : <strong>privacy@sneakershop.com</strong></p>
+
+    {# Section "Cookies" : informations sur l'utilisation des cookies pour améliorer l'expérience utilisateur #}
+    <h2 class="text-xl font-semibold mt-4">Cookies</h2>
+    <p>Ce site utilise des cookies pour améliorer l’expérience utilisateur. Vous pouvez configurer vos préférences en matière de cookies depuis les paramètres de votre navigateur.</p>
+
+    {# Section "Propriété intellectuelle" : protection du contenu et interdiction de sa reproduction sans autorisation #}
+    <h2 class="text-xl font-semibold mt-4">Propriété intellectuelle</h2>
+    <p>L’ensemble du contenu présent sur ce site (textes, images, logos, vidéos, etc.) est protégé par les lois relatives à la propriété intellectuelle.</p>
+    <p>Toute reproduction, diffusion ou exploitation du contenu, totale ou partielle, sans autorisation préalable, est strictement interdite.</p>
+
+    {# Section "Limitation de responsabilité" : clause de non-responsabilité concernant l'exactitude des informations affichées #}
+    <h2 class="text-xl font-semibold mt-4">Limitation de responsabilité</h2>
+    <p>Nous nous efforçons de fournir des informations précises et mises à jour sur ce site. Toutefois, nous ne saurions être tenus responsables des éventuelles erreurs ou omissions.</p>
+
+    {# Section "Droit applicable" : précisions sur la législation en vigueur et la compétence juridictionnelle en cas de litige #}
+    <h2 class="text-xl font-semibold mt-4">Droit applicable</h2>
+    <p>Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+</div>
+{% endblock %}

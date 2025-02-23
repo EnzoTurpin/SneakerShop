@@ -1,28 +1,54 @@
 {# templates/article/new.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un Article{% endblock %}
+{% block title %}
+  {# Bloc de titre : définit le titre de la page #}
+  Ajouter un Article
+{% endblock %}
 
 {% block body %}
 <div class="max-w-4xl mx-auto p-6">
   <h1 class="text-3xl font-bold mb-6">Ajouter un Article</h1>
+  
+  {# Début du formulaire avec des attributs pour l'espacement #}
   {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+  
     <div class="grid grid-cols-1 gap-4">
+      {# Champ "nom" avec ses styles personnalisés #}
       {{ form_row(form.nom, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+      
+      {# Champ "prix" avec ses styles personnalisés #}
       {{ form_row(form.prix, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+      
+      {# Champ "tailles" avec ses styles personnalisés #}
       {{ form_row(form.tailles, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+      
+      {# Champ "brand" avec ses styles personnalisés #}
       {{ form_row(form.brand, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-      {# Pour la case à cocher, on peut ajouter une classe si nécessaire, sinon le rendu par défaut est suffisant #}
+      
+      {# Section de la case à cocher "nouveaute" avec un libellé personnalisé #}
       <div class="flex items-center">
-        {{ form_row(form.nouveaute) }}
+        {{ form_row(form.nouveaute, {'label': false}) }}
         <span class="ml-2">Nouvelle paire ?</span>
       </div>
+      
+      {# Champ de téléchargement d'image avec ses styles personnalisés #}
       {{ form_row(form.imageFile, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+      
+      {# Champ "description" avec ses styles personnalisés #}
       {{ form_row(form.description, {'attr': {'class': 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
     </div>
+
+    {# Rendu des autres champs non explicitement affichés dans le formulaire #}
+    <div style="display: none;">
+      {{ form_rest(form) }}
+    </div>
+    
+    {# Bouton de soumission du formulaire #}
     <button type="submit" class="mt-6 w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors">
       Ajouter
     </button>
+    
   {{ form_end(form) }}
 </div>
 {% endblock %}

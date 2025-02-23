@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+
 class ArticleController extends AbstractController
 {
     /**
@@ -270,5 +271,35 @@ class ArticleController extends AbstractController
         return $this->render('article/vente_detail.html.twig', [
             'article' => $article,
         ]);
+    }
+
+    #[Route('/live-search', name: 'live_search')]
+    public function liveSearch(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $query = $request->query->get('q');
+        $articles = [];
+    
+        if ($query) {
+        $repository = $doctrine->getRepository(Article::class);
+        /** @var \App\Repository\ArticleRepository $repository */
+        $articles = $repository->createQueryBuilder('a')
+            ->where('a.nom LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->orderBy('a.datePublication', 'DESC')
+            ->getQuery()
+            ->getResult();
+        }
+    
+    $data = [];
+        foreach ($articles as $article) {
+        $data[] = [
+            'id' => $article->getId(),
+            'nom' => $article->getNom(),
+            'prix' => $article->getPrix(),
+            'imageUrl' => $article->getImageUrl(),
+        ];
+        }
+    
+        return $this->json($data);
     }
 }

@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType; // Ajouté pour le champ "nouveaute"
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,11 +20,14 @@ class ArticleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Construction du formulaire pour l'entité Article
+        // On définit ici les différents champs et leurs options
         $builder
             ->add('nom', TextType::class)
             ->add('description', TextareaType::class)
             ->add('prix', MoneyType::class, [
                 'currency' => 'EUR',
+                'label' => 'Prix ',
             ])
             ->add('type', ChoiceType::class, [
                 'choices'  => [
@@ -40,9 +43,16 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'label' => 'Tailles (optionnel)',
             ])
-            ->add('brand', TextType::class, [
+            ->add('brand', ChoiceType::class, [
+                'choices' => [
+                    'Adidas' => 'Adidas',
+                    'Nike'   => 'Nike',
+                    'Puma'   => 'Puma',
+                    'Reebok' => 'Reebok',
+                ],
+                'placeholder' => 'Sélectionnez une marque',
+                'label' => 'Marque',
                 'required' => false,
-                'label' => 'Marque (optionnel)',
             ])
             ->add('quantite', IntegerType::class, [
                 'label' => 'Quantité',
@@ -80,6 +90,7 @@ class ArticleType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        // Association du formulaire à l'entité Article
         $resolver->setDefaults([
             'data_class' => Article::class,
         ]);
