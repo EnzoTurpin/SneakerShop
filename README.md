@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SneakerShop
 
 **SneakerShop** est une boutique en ligne spécialisée dans la vente de sneakers, conçue pour offrir une expérience utilisateur fluide et moderne. Le site se distingue par une interface responsive, une gestion efficace des produits et une section dédiée à la vente entre particuliers.
@@ -127,3 +128,18 @@ Pour tester le compte administrateur, utilisez les identifiants suivants :
 ## Lien vers le repo
 
 [https://github.com/EnzoTurpin/SneakerShop.git](https://github.com/EnzoTurpin/SneakerShop.git)
+=======
+SneakerShop
+
+SneakerShop est une boutique en ligne spécialisée dans la vente de sneakers . Ce projet a été conçu pour offrir une expérience utilisateur fluide, avec une interface moderne et une gestion efficace des produits.
+
+Technologies utilisées Backend : Symfony Frontend : Twig & TailwindCSS Base de données : MySQL
+
+Structure du projet /src : Code source de l’application /templates : Fichiers de templates (Twig) /public : Fichiers accessibles /config : Configuration du projet
+
+Personnes du groupe: Turpin Enzo Bouchene Maria Matro Daryl Hardy Guillaume
+
+Mot de passe d'un login admin : enzo@enzo.fr Mot de passe: enzo
+
+Lien vers le repo: https://github.com/EnzoTurpin/SneakerShop.git
+>>>>>>> 42f0c8a229cb09c710741648e341e6bb6d21a871
