@@ -22,6 +22,7 @@ Hardy Guillaume
 
 Mot de passe d'un login admin :
 enzo@enzo.fr
+Mot de passe:
 enzo
 
 Lien vers le repo: https://github.com/EnzoTurpin/SneakerShop.git
